@@ -1,0 +1,143 @@
+.techs {
+  padding: 100px 70px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1279px) {
+  .techs {
+    padding: 90px 50px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .techs {
+    padding: 70px 18px;
+  }
+}
+
+.techs__subtitle {
+  margin-top: 90px;
+  margin-bottom: 26px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  text-align: center;
+  letter-spacing: -0.04em;
+}
+
+@media screen and (max-width: 1279px) {
+  .techs__subtitle {
+    margin-top: 80px;
+    margin-bottom: 22px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .techs__subtitle {
+    font-size: 30px;
+    line-height: 36px;
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+}
+
+.techs__text {
+  margin: 0px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+@media screen and (max-width: 1279px) {
+  .techs__text {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .techs__text {
+    font-size: 11px;
+    line-height: 16px;
+  }
+}
+
+.techs__container {
+  margin: 100px auto 0;
+  padding: 0px;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  max-width: 600px;
+}
+
+@media screen and (max-width: 1279px) {
+  .techs__container {
+    margin-top: 83px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .techs__container {
+    display: grid;
+    grid-template-columns: 90px 90px;
+    gap: 10px;
+    margin-top: 60px;
+    max-height: 366px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+.techs__container-item {
+  box-sizing: border-box;
+  padding-top: 21px;
+  width: 90px;
+  height: 60px;
+  background: #303030;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 1279px) {
+  .techs__container-item {
+    width: 84px;
+    height: 57px;
+  }
+}
+
+.techs__container-item-text {
+  margin: 0px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
+@media screen and (max-width: 1279px) {
+  .techs__container-item-text {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+@media screen and (max-width: 1279px) {
+  .techs__container {
+    margin-top: 83px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .techs__container {
+    margin-top: 60px;
+    max-height: 366px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
