@@ -8,17 +8,38 @@ function Portfolio(props) {
       <ul className="portfolio__container">
         <li className="portfolio__item">
           <p className="portfolio__item-text">Статичный сайт</p>
-          <div className="portfolio__link">↗</div>
+          <a
+            href="https://github.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="portfolio__link"
+          >
+            ↗
+          </a>
         </li>
         <hr className="line" />
         <li className="portfolio__item">
           <p className="portfolio__item-text">Адаптивный сайт</p>
-          <p className="portfolio__link">↗</p>
+          <a
+            href="https://github.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="portfolio__link"
+          >
+            ↗
+          </a>
         </li>
         <hr className="line" />
         <li className="portfolio__item">
           <p className="portfolio__item-text">Одностраничное приложение</p>
-          <div className="portfolio__link">↗</div>
+          <a
+            href="https://github.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="portfolio__link"
+          >
+            ↗
+          </a>
         </li>
       </ul>
     </section>

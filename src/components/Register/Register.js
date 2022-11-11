@@ -1,10 +1,14 @@
 import React from "react";
 import "./Register.css";
+import logo from "../../images/logo.svg";
+import { Link } from "react-router-dom";
 
 function Register(props) {
   return (
-    <form className="form__container" novalidate>
-      <img className="form__logo" src="./logo.svg" alt="логотип сайта" />
+    <form action="/signin" className="form__container" noValidate>
+      <Link to="/">
+        <img className="form__logo" src={logo} alt="логотип сайта" />
+      </Link>
       <p className="form__title">Добро пожаловать!</p>
       <label className="form__field">
         <p className="form__text">Имя</p>
@@ -12,8 +16,8 @@ function Register(props) {
           className="form__item"
           name="name"
           id="name-input"
-          minlength="5"
-          maxlength="15"
+          minLength="5"
+          maxLength="15"
         />
         <span className="form__item-error name-input-error">
           Необходимо ввести имя
@@ -38,22 +42,20 @@ function Register(props) {
           className="form__item"
           name="password"
           id="pass-input"
-          minlength="7"
+          minLength="7"
         />
         <span className="form__item-error pass-input-error">
           Слишком короткий пароль
         </span>
       </label>
-      <input
-        className="form__submit-button"
-        type="submit"
-        value="Зарегистрироваться"
-      />
+      <button className="form__submit-button" type="submit">
+        Зарегистрироваться
+      </button>
       <p className="form__subtext">
         Уже зарегистрированы?{" "}
-        <a className="form__link" href="#">
+        <Link className="form__link" to="/signin">
           Войти
-        </a>
+        </Link>
       </p>
     </form>
   );

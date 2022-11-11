@@ -15,7 +15,12 @@ function App() {
   return (
     <div className="page-content">
       <div className="page">
-        <Header />
+        <Switch>
+          <Route exact path={["/", "/movies", "/saved-movies", "/profile"]}>
+            <Header />
+          </Route>
+          <Route path={["/signup", "/signin"]}> </Route>
+        </Switch>
         <Switch>
           <Route exact path="/">
             <Main />
@@ -39,7 +44,12 @@ function App() {
             <PageNotFound />
           </Route>
         </Switch>
-        <Footer />
+        <Switch>
+          <Route exact path={["/", "/movies", "/saved-movies", "/profile"]}>
+            <Footer />
+          </Route>
+          <Route path={["/signup", "/signin"]}> </Route>
+        </Switch>
       </div>
     </div>
   );

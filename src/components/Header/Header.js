@@ -1,22 +1,25 @@
 import React from "react";
 import "./Header.css";
 import logo from "../../images/logo.svg";
-import { NavLink } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
+import NavigationMain from "../NavigationMain/NavigationMain";
+import NavigationMovie from "../NavigationMovie/NavigationMovie";
 
 function Header(props) {
   return (
     <header className="header">
-      <img className="header__logo" src={logo} alt="логотип сайта" />
+      <Link to="/">
+        <img className="header__logo" src={logo} alt="логотип сайта" />
+      </Link>
       <div className="header__container">
-        <NavLink to="/signup" className="header__link-signup">
-          Регистрация
-        </NavLink>
-
-        <div className="header__link">
-          <NavLink to="/signin" className="header__link-signin">
-            Войти
-          </NavLink>
-        </div>
+        <Switch>
+          <Route exact path="/">
+            <NavigationMain />
+          </Route>
+          <Route path={["/movies", "/saved-movies", "/profile"]}>
+            <NavigationMovie />
+          </Route>
+        </Switch>
       </div>
     </header>
   );

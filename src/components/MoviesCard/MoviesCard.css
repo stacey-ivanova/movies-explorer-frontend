@@ -1,0 +1,26 @@
+.movie {
+  width: 364px;
+  height: 271px;
+  background: #222222;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+}
+
+.movie__title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+}
+
+.movie__length {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.movie__save-icon {
+}
+
+.movie__photo {
+}
