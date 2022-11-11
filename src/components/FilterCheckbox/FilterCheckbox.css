@@ -1,5 +1,6 @@
 .checkbox__container {
-  padding: 28px auto 39px;
+  padding-top: 28px;
+  padding-bottom: 39px;
   display: flex;
   flex-direction: row;
   justify-content: center;

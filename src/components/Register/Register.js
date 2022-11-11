@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 function Register(props) {
   return (
-    <div class="form">
+    <div className="form">
       <form action="/signin" className="form__container" noValidate>
         <Link to="/">
           <img className="form__logo" src={logo} alt="логотип сайта" />
