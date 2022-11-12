@@ -2,10 +2,12 @@ import React from "react";
 import "./NavigationMovie.css";
 import { NavLink } from "react-router-dom";
 import profile from "../../images/iconprofile.svg";
+import Burger from "../../components/Burger/Burger";
 
 function NavigationMovie(props) {
   return (
     <div className="nav-movie">
+      {" "}
       <div className="nav-movie__container">
         <NavLink
           to="/movies"
@@ -35,6 +37,7 @@ function NavigationMovie(props) {
           style={{ backgroundImage: `url(${profile})` }}
         ></div>
       </div>
+      <Burger />
     </div>
   );
 }
