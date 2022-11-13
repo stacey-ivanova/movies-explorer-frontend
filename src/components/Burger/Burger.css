@@ -89,6 +89,28 @@
   justify-content: space-between;
   padding-top: 159px;
   padding-bottom: 92px;
+  min-height: 100vh;
+}
+
+@media screen and (max-width: 1279px) {
+  .toggler:checked ~ .menu__burger {
+    z-index: 10;
+    top: -26px;
+    right: -30px;
+    transform: translateX(0);
+    width: 520px;
+
+    display: flex;
+    transition: visibility 0s 0.5s, opacity 0.5s ease-in-out;
+    visibility: visible;
+  }
+}
+@media screen and (max-width: 767px) {
+  .toggler:checked ~ .menu__burger {
+    right: -14px;
+    width: 320px;
+    height: 100vh;
+  }
 }
 .menu__burger-list {
   text-align: center;
@@ -116,25 +138,4 @@
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;
-}
-@media screen and (max-width: 767px) {
-  .toggler:checked ~ .menu__burger {
-    right: -14px;
-    width: 100vh;
-    height: 100vh;
-  }
-}
-
-@media screen and (max-width: 1279px) {
-  .toggler:checked ~ .menu__burger {
-    z-index: 10;
-    top: -26px;
-    right: -30px;
-    transform: translateX(0);
-    width: 520px;
-    height: 100vh;
-    display: flex;
-    transition: 0.2s linear;
-    visibility: visible;
-  }
 }

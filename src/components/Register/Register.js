@@ -7,8 +7,8 @@ function Register(props) {
   return (
     <div className="form">
       <form action="/signin" className="form__container" noValidate>
-        <Link to="/">
-          <img className="form__logo" src={logo} alt="логотип сайта" />
+        <Link className="form__logo" to="/">
+          <img src={logo} alt="логотип сайта" />
         </Link>
         <p className="form__title">Добро пожаловать!</p>
         <label className="form__field">
