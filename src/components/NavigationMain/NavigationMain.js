@@ -8,11 +8,9 @@ function NavigationMain(props) {
       <NavLink to="/signup" className="nav-main__link-signup">
         Регистрация
       </NavLink>
-      <div className="nav-main__link">
-        <NavLink to="/signin" className="nav-main__link-signin">
-          Войти
-        </NavLink>
-      </div>
+      <NavLink className="nav-main__link" to="/signin">
+        <p className="nav-main__link-signin">Войти</p>
+      </NavLink>
     </div>
   );
 }

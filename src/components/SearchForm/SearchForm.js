@@ -6,7 +6,7 @@ import searchButton from "../../images/arrow.svg";
 function SearchForm(props) {
   return (
     <div className="searchform">
-      <div className="searchform__container">
+      <form className="searchform__container">
         <input
           className="searchform__item"
           name="film"
@@ -17,7 +17,7 @@ function SearchForm(props) {
           className="searchform__submit-button"
           style={{ backgroundImage: `url(${searchButton})` }}
         ></button>
-      </div>
+      </form>
       <FilterCheckbox />
       <hr className="line"></hr>
     </div>

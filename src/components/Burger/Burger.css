@@ -1,6 +1,8 @@
 .burger__container {
   position: relative;
   display: none;
+  height: 22px;
+  width: 40px;
 }
 .toggler {
   z-index: 13;
@@ -27,8 +29,8 @@
     z-index: 12;
     top: 0;
     left: 0;
-    height: 22px;
-    width: 40px;
+    height: 100%;
+    width: 100%;
     margin: 0;
     display: flex;
     align-items: center;
@@ -81,7 +83,8 @@
   position: absolute;
   visibility: hidden;
   width: 0%;
-  display: flex;
+  background: #202020;
+  display: none;
   flex-direction: column;
   justify-content: space-between;
   padding-top: 159px;
@@ -91,6 +94,7 @@
   text-align: center;
   padding: 0;
   list-style: none;
+  justify-content: center;
   display: flex;
   gap: 28px;
   flex-direction: column;
@@ -113,29 +117,23 @@
   font-size: 18px;
   line-height: 22px;
 }
-
 @media screen and (max-width: 767px) {
   .toggler:checked ~ .menu__burger {
-    z-index: 10;
-    top: -38px;
-    right: -38px;
-    transform: translateX(0);
+    right: -14px;
     width: 100vh;
     height: 100vh;
-    background: rgb(0, 0, 0);
-    transition: 0.2s linear;
-    visibility: visible;
   }
 }
+
 @media screen and (max-width: 1279px) {
   .toggler:checked ~ .menu__burger {
     z-index: 10;
-    top: -38px;
-    right: -38px;
+    top: -26px;
+    right: -30px;
     transform: translateX(0);
     width: 520px;
     height: 100vh;
-    background: rgb(0, 0, 0);
+    display: flex;
     transition: 0.2s linear;
     visibility: visible;
   }

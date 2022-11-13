@@ -2,6 +2,7 @@
   padding-top: 24px;
   padding-bottom: 24px;
   box-sizing: border-box;
+  background-color: #272727;
 }
 
 @media screen and (max-width: 767px) {

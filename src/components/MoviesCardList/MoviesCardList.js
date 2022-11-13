@@ -4,7 +4,7 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 
 function MoviesCardList(props) {
   return (
-    <div className="movies__container">
+    <ul className="movies__container">
       <MoviesCard />
       <MoviesCard />
       <MoviesCard />
@@ -17,7 +17,7 @@ function MoviesCardList(props) {
       <MoviesCard />
       <MoviesCard />
       <MoviesCard />
-    </div>
+    </ul>
   );
 }
 

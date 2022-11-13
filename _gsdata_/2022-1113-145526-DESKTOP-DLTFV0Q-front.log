@@ -1,0 +1,25 @@
+2022-11-13 14:55:27: -- Analysis Started by On File Change Incremental
+2022-11-13 14:56:19: Changes: 15, Conflicts: 0, CopyTime: 0, FixState: 0, Errors: 0, All: 42649
+2022-11-13 14:56:19: Left to Right: Copy File: 15 
+2022-11-13 14:56:19: == Sync Started by On File Change Incremental
+2022-11-13 14:56:19: > Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/19.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/19.pack' (1,055,702)
+2022-11-13 14:56:19: Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/1.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/1.pack' (7,972)
+2022-11-13 14:56:19: Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/0.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/0.pack' (322,037)
+2022-11-13 14:56:19: < Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/19.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/19.pack' (1,055,702)
+2022-11-13 14:56:19: Copy New 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/23.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/23.pack' (8,660)
+2022-11-13 14:56:19: Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/2.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/2.pack' (25,621)
+2022-11-13 14:56:19: Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/21.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/21.pack' (56,366)
+2022-11-13 14:56:19: > Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/7.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/7.pack' (92,262,941)
+2022-11-13 14:56:22: Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/3.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/3.pack' (16,650)
+2022-11-13 14:56:22: > Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/8.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/8.pack' (10,053,153)
+2022-11-13 14:56:23: Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/5.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/5.pack' (35,332)
+2022-11-13 14:56:23: > Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/index.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/index.pack' (2,249,590)
+2022-11-13 14:56:24: < Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/7.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/7.pack' (92,262,941)
+2022-11-13 14:56:24: > Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/index.pack.old' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/index.pack.old' (2,249,534)
+2022-11-13 14:56:24: < Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/8.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/8.pack' (10,053,153)
+2022-11-13 14:56:24: < Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/index.pack' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/index.pack' (2,249,590)
+2022-11-13 14:56:24: < Copy Over 'C:/dev/Diploma/movies-explorer-frontend/node_modules/.cache/default-development/index.pack.old' -> '//192.168.1.25/papaka/movies-explorer-frontend/node_modules/.cache/default-development/index.pack.old' (2,249,534)
+2022-11-13 14:56:24: Copy Over 'C:/dev/Diploma/movies-explorer-frontend/src/components/Header/Header.css' -> '//192.168.1.25/papaka/movies-explorer-frontend/src/components/Header/Header.css' (622)
+2022-11-13 14:56:24: Copy Over 'C:/dev/Diploma/movies-explorer-frontend/src/components/MoviesCard/MoviesCard.css' -> '//192.168.1.25/papaka/movies-explorer-frontend/src/components/MoviesCard/MoviesCard.css' (1,336)
+2022-11-13 14:56:24: Copy Over 'C:/dev/Diploma/movies-explorer-frontend/src/components/SearchForm/SearchForm.css' -> '//192.168.1.25/papaka/movies-explorer-frontend/src/components/SearchForm/SearchForm.css' (1,014)
+2022-11-13 14:56:25: == Sync Complete. Time: 00:00:58, Speed: 1.88 MB/s, OK: 15, Errors: 0

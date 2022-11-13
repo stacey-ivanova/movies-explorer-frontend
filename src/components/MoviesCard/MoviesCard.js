@@ -15,7 +15,7 @@ function changeIcon(props) {
 
 function MoviesCard(props) {
   return (
-    <div className="movie">
+    <li className="movie">
       <div className="movie__container">
         <div className="movie__info">
           <h2 className="movie__title">33 слова о дизайне</h2>
@@ -27,8 +27,8 @@ function MoviesCard(props) {
           style={{ backgroundImage: `url(${changeIcon()})` }}
         ></button>
       </div>
-      <img className="movie__photo" src={moviePhoto}></img>
-    </div>
+      <img className="movie__photo" src={moviePhoto} alt="постер фильма" />
+    </li>
   );
 }
 

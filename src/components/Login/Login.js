@@ -9,7 +9,7 @@ function Login(props) {
     <div className="form">
       <form action="/movies" className="form__container" noValidate>
         <Link to="/">
-          <img className="form__logo" src={logo} alt="логотип сайта" />
+          <img className="form__logo" src={logo} alt="логотип проекта" />
         </Link>
         <p className="form__title">Рады видеть!</p>
         <label className="form__field">

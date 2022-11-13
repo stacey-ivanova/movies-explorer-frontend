@@ -18,10 +18,12 @@
 }
 
 .searchform__container {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  box-sizing: border-box;
 }
 
 .searchform__item {
@@ -41,6 +43,9 @@
   .searchform__item {
     padding: 13px 0 13px 13px;
   }
+}
+
+.searchform__item:focus {
 }
 
 .searchform__submit-button {
