@@ -1,0 +1,89 @@
+.account {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.account__content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 420px;
+  margin: auto;
+}
+
+@media screen and (max-width: 1279px) {
+  .account__content {
+    width: 410px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .account__content {
+    width: 260px;
+  }
+}
+
+.account__data-row {
+  border-bottom: 2px solid #424242;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 767px) {
+  .account__data-row {
+  }
+}
+
+.account__data-row:last-of-type {
+  border: 0;
+}
+
+.account__title {
+  text-align: center;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  margin: 0px auto 123px;
+}
+
+@media screen and (max-width: 767px) {
+  .account__title {
+    margin-bottom: 80px;
+  }
+}
+
+.account__data-row-text {
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  margin-bottom: 16px;
+}
+
+.account__edit {
+  text-align: center;
+  margin: 220px auto 16px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+@media screen and (max-width: 767px) {
+  .account__edit {
+    margin-top: 220px;
+  }
+}
+
+.account__exit {
+  text-align: center;
+  margin: auto;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  text-decoration: none;
+  color: #ee3465;
+}

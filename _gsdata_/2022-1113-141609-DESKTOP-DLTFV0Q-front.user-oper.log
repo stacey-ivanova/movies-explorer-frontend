@@ -1,0 +1,6 @@
+2022-11-13 14:17:21: == Sync Started by User Command
+2022-11-13 14:17:21: Please click Analyze again because another job has Synced and it invalidated analysis results of this job.
+State file: //192.168.1.25/papaka/movies-explorer-frontend/_gsdata_/_file_state_v4._gs
+New: [size=569,391 time=2022-11-13 14:16:16] != 
+Old: [size=-1 time=(null-time)]
+
