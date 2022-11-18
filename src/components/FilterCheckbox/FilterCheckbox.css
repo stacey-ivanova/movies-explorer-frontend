@@ -50,14 +50,6 @@
   transform: translateX(16px);
 }
 
-/* .hidden-checkbox:disabled + .visible-checkbox {
-  background-color: #f5f5f5;
-}
-
-.hidden-checkbox:disabled:checked + .visible-checkbox {
-  background-color: #ebebeb;
-} */
-
 .checkbox__text {
   font-style: normal;
   font-weight: 400;

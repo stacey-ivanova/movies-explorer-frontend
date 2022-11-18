@@ -2,6 +2,7 @@ import React from "react";
 import "./Footer.css";
 
 function Footer(props) {
+  // {year} = props;
   return (
     <footer className="footer">
       <h4 className="footer__text">
@@ -9,7 +10,7 @@ function Footer(props) {
       </h4>
       <hr className="line" />
       <div className="footer__container">
-        <p className="footer__copyright">© 2020</p>
+        <p className="footer__copyright">© {props.year}</p>
         <ul className="footer__links">
           <li className="footer__link">
             <a

@@ -4,13 +4,28 @@ import "./SearchForm.css";
 import searchButton from "../../images/arrow.svg";
 
 function SearchForm(props) {
+  const { setshort, getMovies, type } = props;
+  const [filterValue, setfilterValue] = React.useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(type);
+    getMovies(filterValue, type);
+  }
+
+  function handleFindChange(e) {
+    setfilterValue(e.target.value);
+    console.log(e.target.value);
+  }
+
   return (
     <div className="searchform">
-      <form className="searchform__container">
+      <form onSubmit={handleSubmit} className="searchform__container">
         <input
           className="searchform__item"
           name="film"
           placeholder="Фильм"
+          onChange={handleFindChange}
         ></input>
         <button
           type="submit"
@@ -18,7 +33,7 @@ function SearchForm(props) {
           style={{ backgroundImage: `url(${searchButton})` }}
         ></button>
       </form>
-      <FilterCheckbox />
+      <FilterCheckbox setshort={setshort} />
       <hr className="line"></hr>
     </div>
   );

@@ -52,6 +52,10 @@
   }
 }
 
+.form__item:focus {
+  outline: 1px solid #3ddc84;
+}
+
 .form__submit-button {
   width: 100%;
   display: block;

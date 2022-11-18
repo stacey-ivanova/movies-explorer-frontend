@@ -62,6 +62,13 @@
   font-size: 11px;
   line-height: 13px;
   margin-bottom: 16px;
+  margin-top: 11px;
+  background-color: #202020;
+  border: none;
+}
+
+.account__data-row-text:focus {
+  outline: 1px solid #3ddc84;
 }
 
 .account__edit {
@@ -70,6 +77,14 @@
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
+  background-color: #202020;
+  color: #ffffff;
+  border: none;
+}
+
+.account__edit {
+  cursor: pointer;
+  opacity: 0.8;
 }
 
 @media screen and (max-width: 767px) {
@@ -86,4 +101,17 @@
   line-height: 16px;
   text-decoration: none;
   color: #ee3465;
+}
+.account__input-lable {
+  position: relative;
+}
+.form__item-error_active {
+  position: absolute;
+  top: 65%;
+  left: 0;
+  display: block;
+  color: #ee3465;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
 }

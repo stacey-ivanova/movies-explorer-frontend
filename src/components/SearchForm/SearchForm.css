@@ -46,6 +46,7 @@
 }
 
 .searchform__item:focus {
+  outline: 1px solid #3ddc84;
 }
 
 .searchform__submit-button {

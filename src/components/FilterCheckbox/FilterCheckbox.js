@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./FilterCheckbox.css";
 
 function FilterCheckbox(props) {
+  const { setshort } = props;
+
+  // const check = document.alert(parentNode.getElementsByName("hidden-checkbox"));
+  // console.log(check);
+  // function handleShortFilm(e) {
+  //   e.preventDefault();
+  //   if (e.currentTarget.checked) setshort(false);
+  //   else {
+  //     setshort(true);
+  //   }
+  // }
   return (
     <div className="checkbox__container">
       <label className="checkbox">
@@ -14,3 +25,4 @@ function FilterCheckbox(props) {
 }
 
 export default FilterCheckbox;
+//

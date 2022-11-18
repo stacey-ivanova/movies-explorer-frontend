@@ -5,9 +5,28 @@ import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 
 function Login(props) {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  function handleEmailChange(e) {
+    console.log("Хочу спать1");
+    setEmail(e.target.value);
+  }
+
+  function handlePasswordChange(e) {
+    console.log("Хочу спать2");
+    setPassword(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    console.log("Хочу спать3");
+    e.preventDefault();
+    props.handleSignin(email, password);
+  }
+
   return (
     <div className="form">
-      <form action="/movies" className="form__container" noValidate>
+      <form onSubmit={handleSubmit} className="form__container">
         <Link className="form__logo" to="/">
           <img src={logo} alt="логотип проекта" />
         </Link>
@@ -19,6 +38,8 @@ function Login(props) {
             name="email"
             type="email"
             id="email-input"
+            value={email}
+            onChange={handleEmailChange}
           />
           <span className="form__item-error email-input-error">
             Необходимо ввести e-mail
@@ -32,6 +53,8 @@ function Login(props) {
             name="password"
             id="pass-input"
             minLength="7"
+            value={password}
+            onChange={handlePasswordChange}
           />
           <span className="form__item-error pass-input-error">
             Слишком короткий пароль
