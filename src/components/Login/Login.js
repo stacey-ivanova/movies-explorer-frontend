@@ -3,23 +3,33 @@ import "../Register/Register.css";
 import "./Login.css";
 import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
+import useInput from "../Validate/Validate";
 
 function Login(props) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const emailInput = useInput('', {
+    isEmpty: true,
+    isEmail: true,
+  });
+  const passwordInput = useInput('', {
+    isEmpty: true,
+  });
+
   function handleEmailChange(e) {
-    console.log("Хочу спать1");
-    setEmail(e.target.value);
+    emailInput.handleChange(e);
+    // setEmail(e.target.value);
   }
 
   function handlePasswordChange(e) {
-    console.log("Хочу спать2");
-    setPassword(e.target.value);
+    passwordInput.handleChange(e);
+    // setPassword(e.target.value);
   }
 
   function handleSubmit(e) {
-    console.log("Хочу спать3");
+    const email=emailInput.values
+    const password =passwordInput.values
     e.preventDefault();
     props.handleSignin(email, password);
   }
@@ -38,12 +48,13 @@ function Login(props) {
             name="email"
             type="email"
             id="email-input"
-            value={email}
+            value={emailInput.values}
             onChange={handleEmailChange}
           />
+          {(emailInput.isDirty && emailInput.isEmpty && emailInput.isEmail) && (
           <span className="form__item-error email-input-error">
             Необходимо ввести e-mail
-          </span>
+          </span>)}
         </label>
         <label className="form__field">
           <p className="form__text">Пароль</p>
@@ -53,15 +64,17 @@ function Login(props) {
             name="password"
             id="pass-input"
             minLength="7"
-            value={password}
+            value={passwordInput.values}
             onChange={handlePasswordChange}
           />
+          {(passwordInput.isDirty || passwordInput.isEmpty) && (
           <span className="form__item-error pass-input-error">
             Слишком короткий пароль
-          </span>
+          </span>)}
         </label>
         <button
           className="form__submit-button form__submit-button_signin_m"
+          disabled={!emailInput.inputValid || !passwordInput.inputValid}
           type="submit"
         >
           Войти

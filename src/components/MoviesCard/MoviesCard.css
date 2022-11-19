@@ -66,20 +66,25 @@
   line-height: 13px;
   color: #8b8b8b;
 }
-
+.movie__icon-button-empty,
+.movie__icon-button,
 .movie__icon {
   width: 30px;
   height: 30px;
-  border-radius: 36px;
+  border-radius: 50%;
   background-color: #313131;
+  background-image: url("../../images/iconsave1.svg");
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   border: none;
   outline: none;
 }
+.movie__icon-button {
+  background-image: url("../../images/deleteicon.svg");
+}
 
-.movie__icon_active {
-  background-color: #3ddc84;
+.movie__icon-button-empty {
+  background-image: url("../../images/likegreen.svg");
 }
 
 .movie__icon:hover {

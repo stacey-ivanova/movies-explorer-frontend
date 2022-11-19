@@ -15,7 +15,8 @@ function SearchForm(props) {
 
   function handleFindChange(e) {
     setfilterValue(e.target.value);
-    console.log(e.target.value);
+
+    // console.log(e.target.value);
   }
 
   return (

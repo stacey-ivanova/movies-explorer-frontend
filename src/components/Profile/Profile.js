@@ -6,13 +6,17 @@ import useInput from "../Validate/Validate";
 
 function Profile(props) {
   const { mail, name, onUpdateUser, handleLogout } = props;
+  console.log(mail)
+  console.log(name)
   const emailInput = useInput(mail, {
     isEmpty: true,
     isEmail: true,
-  });
+    isIdent: true
+  },mail);
   const nameInput = useInput(name, {
     isEmpty: true,
-  });
+    isIdent: true
+  },name);
   // const user = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
@@ -58,12 +62,11 @@ function Profile(props) {
               value={nameInput.values}
               onChange={handleNameChange}
             ></input>
-            {nameInput.isDirty ||
-              (nameInput.isEmpty && (
-                <span className="form__item-error_active">
-                  Необходимо ввести e-mail
-                </span>
-              ))}
+            {(nameInput.isDirty && nameInput.isEmpty && nameInput.isIdent) && (
+              <span className="form__item-error_active">
+                Введены некоректные данные
+              </span>
+            )}
           </label>
         </div>
         <div className="account__data-row">
@@ -77,16 +80,21 @@ function Profile(props) {
               value={emailInput.values}
               onChange={handleEmailChange}
             ></input>
-            {(emailInput.isDirty ||
-              emailInput.isEmpty ||
-              emailInput.isEmailError) && (
-              <span className="form__item-error_active">
-                Необходимо ввести e-mail
-              </span>
-            )}
+            {(emailInput.isDirty &&
+              emailInput.isEmpty &&
+              emailInput.isEmailError && emailInput.isIdent ) && (
+                <span className="form__item-error_active">
+                  Введены некоректные данные
+                </span>
+              )}
           </label>
         </div>
-        <button className="account__edit">Редактировать</button>
+        <button
+          disabled={(!emailInput.inputValid && !nameInput.inputValid) && (!emailInput.inputValid || !nameInput.inputValid)}
+          className="account__edit"
+        >
+          Редактировать
+        </button>
         <Link onClick={handleLogOut} className="account__exit" to="/">
           Выйти из аккаунта
         </Link>

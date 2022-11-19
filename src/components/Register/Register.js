@@ -2,29 +2,46 @@ import React from "react";
 import "./Register.css";
 import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
+import useInput from "../Validate/Validate";
 
 function Register(props) {
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  console.log(props);
+  // const [name, setName] = React.useState("");
+  // const [email, setEmail] = React.useState("");
+  // const [password, setPassword] = React.useState("");
+
+ const emailInput = useInput('', {
+    isEmpty: true,
+    isEmail: true,
+  });
+  const passwordInput = useInput('', {
+    isEmpty: true,
+  });
+  const nameInput = useInput('', {
+    isEmpty: true,
+  });
+
   function handleNameChange(e) {
-    console.log("Хочу спать1");
-    setName(e.target.value);
+
+    nameInput.handleChange(e);
+    // setName(e.target.value);
   }
 
   function handleEmailChange(e) {
-    console.log("Хочу спать2");
-    setEmail(e.target.value);
+
+    emailInput.handleChange(e);
+    // setEmail(e.target.value);
   }
 
   function handlePasswordChange(e) {
-    console.log("Хочу спать3");
-    setPassword(e.target.value);
+
+    passwordInput.handleChange(e);
+    // setPassword(e.target.value);
   }
 
   function handleSubmit(e) {
-    console.log("Хочу спать4");
+    const name= nameInput.values
+    const email= emailInput.values
+    const password = passwordInput.values
     e.preventDefault();
     props.handleRegister(name, email, password);
   }
@@ -44,26 +61,29 @@ function Register(props) {
             id="name-input"
             minLength="5"
             maxLength="15"
-            value={name}
+            value={nameInput.value}
             onChange={handleNameChange}
           />
+          {(nameInput.isDirty && nameInput.isEmpty) && (
           <span className="form__item-error name-input-error">
             Необходимо ввести имя
-          </span>
+          </span>)}
         </label>
         <label className="form__field">
           <p className="form__text">E-mail</p>
           <input
             className="form__item"
             name="email"
-            type="email"
+            // type="email"
             id="email-input"
-            value={email}
+            value={emailInput.values}
             onChange={handleEmailChange}
           />
+          {(emailInput.isDirty && emailInput.isEmpty ) && (
           <span className="form__item-error email-input-error">
             Необходимо ввести e-mail
           </span>
+          )}
         </label>
         <label className="form__field">
           <p className="form__text">Пароль</p>
@@ -73,16 +93,19 @@ function Register(props) {
             name="password"
             id="pass-input"
             minLength="7"
-            value={password}
+            value={passwordInput.values}
             onChange={handlePasswordChange}
           />
+          {(passwordInput.isDirty || passwordInput.isEmpty) && (
           <span className="form__item-error pass-input-error">
             Слишком короткий пароль
           </span>
+          )}
         </label>
         <button
           // onClick={() => props.history.push("/signin")}
           onClick={handleSubmit}
+          disabled={!emailInput.inputValid || !nameInput.inputValid || !passwordInput.inputValid}
           className="form__submit-button"
           // type="button"
         >

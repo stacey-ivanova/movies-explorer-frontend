@@ -2,8 +2,13 @@ import React from "react";
 import "./MoreButton.css";
 
 function MoreButton(props) {
+  const { handleMoreButtonClick } = props;
   return (
-    <button type="submit" className="more-button">
+    <button
+      onClick={handleMoreButtonClick}
+      type="submit"
+      className="more-button"
+    >
       Ещё
     </button>
   );

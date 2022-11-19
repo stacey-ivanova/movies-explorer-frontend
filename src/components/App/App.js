@@ -16,6 +16,7 @@ import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import * as auth from "../../utils/Auth.js";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
+import moviesMapper from "../../utils/MovieMaper";
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
@@ -40,51 +41,32 @@ function App() {
     // console.log(short);
   }, [handleTokenCheck, loggedIn]);
 
+  // React.useEffect(() => {
+  //   setMovies(JSON.parse(localStorage.getItem("movies")));
+  // }, []);
+
   function getMovies(filter, type) {
-    if (JSON.parse(localStorage.getItem("movies"))) {
-      if (filter || short) {
-        filterFilms(filter, short);
+    if (type === "movies") {
+      if (JSON.parse(localStorage.getItem("movies"))) {
+        if (filter || short) {
+          filterFilms(filter, short, type);
+        } else {
+          const movemaper = JSON.parse(localStorage.getItem("movies"));
+          setMovies(movemaper);
+        }
       } else {
-        const movemaper = JSON.parse(localStorage.getItem("movies"));
-        setMovies(movemaper);
-      }
-    } else {
-      if (type === "movies") {
         setLoader(true);
         moviesApi
           .getMovies()
           .then((mov) => {
-            const movemaper = mov.map((movie_iter) => {
-              return movie_iter;
-            });
+            console.log(mov);
+            const movemaper = moviesMapper(mov);
             localStorage.setItem("movies", JSON.stringify(movemaper));
             if (filter) {
-              setMovies(movemaper);
-              filterFilms(filter, "movies");
+              // setMovies(movemaper);
+              filterFilms(filter, short, type);
             } else {
               setMovies(movemaper);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => {
-            setLoader(false);
-          });
-      } else if ((type = "saved-movies")) {
-        setLoader(true);
-        mainApi
-          .getMovies()
-          .then((mov) => {
-            const movemaper = mov.map((movie_iter) => {
-              return movie_iter;
-            });
-            localStorage.setItem("saved-movies", JSON.stringify(movemaper));
-            if (filter) {
-              setSaveMovies(movemaper);
-              filterFilms(filter);
-            } else {
-              setSaveMovies(movemaper);
             }
           })
           .catch((err) => {
@@ -94,6 +76,30 @@ function App() {
             setLoader(false);
           });
       }
+    } else if (type === "saved-movies") {
+      setLoader(true);
+      mainApi
+        .getMovies()
+        .then((mov) => {
+          console.log(mov);
+          const movemaper = mov.map((movie_iter) => {
+            return movie_iter;
+          });
+
+          if (filter) {
+            // setSaveMovies(movemaper);
+            filterFilms(filter, short, type);
+          } else {
+            setSaveMovies(movemaper);
+            console.log(saveMovies);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoader(false);
+        });
     }
   }
 
@@ -105,20 +111,18 @@ function App() {
     setIsTooltipPopupOpen(false);
   }
   function filterFilms(filter, isShort, page) {
-    let moviesfilter = JSON.parse(localStorage.getItem(page));
+    console.log(page);
+    let moviesfilter = JSON.parse(localStorage.getItem("movies"));
     if (isShort) {
       console.log(moviesfilter);
       moviesfilter = moviesfilter.filter((m) => m.duration <= 40);
     }
-
+    console.log(moviesfilter);
     const filtredMovies = moviesfilter.filter(
       (m) => m.nameRU.indexOf(filter) !== -1
     );
-    if (page === "movies") {
-      setMovies(filtredMovies);
-    } else {
-      setSaveMovies(filtredMovies);
-    }
+    console.log(filtredMovies);
+    setMovies(filtredMovies);
   }
 
   function handleRegister(name, email, password) {
@@ -146,6 +150,7 @@ function App() {
           setUserEmail(localStorage.getItem("email"));
           setUserName(localStorage.getItem("name"));
           handleLogin();
+          getMovies("", "saved-movies");
           history.push("/movies");
         }
       })
@@ -158,8 +163,10 @@ function App() {
   function handleLogout() {
     console.log("logout");
     setLoggedIn(false);
-    localStorage.removeItem("movies");
-    localStorage.removeItem("token");
+    localStorage.clear();
+    setSavedMovies([]);
+    setMovies([]);
+    history.push("/signin");
   }
 
   function handleTokenCheck() {
@@ -174,7 +181,8 @@ function App() {
               setLoggedIn(true);
               setUserEmail(res.email);
               setUserName(res.name);
-              history.push("/movies");
+
+              // history.push("/movies");
             }
           })
           .catch((err) => {
@@ -185,7 +193,7 @@ function App() {
 
         setUserEmail(localStorage.getItem("email"));
         setUserName(localStorage.getItem("name"));
-        history.push("/movies");
+        // history.push("/movies");
       }
     }
   }
@@ -207,33 +215,39 @@ function App() {
   }
 
   function handleCardLike(movie) {
-    const isLiked = movie.likes.some((i) => i._id === currentUser._id);
     mainApi
-      .changeLikeCardStatus(card._id, isLiked)
+      .saveMovie(movie)
       .then((newCard) => {
-        const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
-        setCards(newCards);
+        if (newCard) {
+          setSaveMovies((prevState) => [...prevState, newCard]);
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  // function handleCardDelete(card) {
-  //   api
-  //     .deleteCard(card._id)
-  //     .then((deleteCard) => {
-  //       const newCards = cards.filter((c) => c._id !== card._id);
-  //       setCards(newCards);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+  function handleCardDelete(card) {
+    mainApi
+      .deleteMovie(card)
+      .then((deleteCard) => {
+        console.log(deleteCard);
+        setSaveMovies(
+          saveMovies.filter((movie) => {
+            console.log(movie._id);
+            console.log(card);
+            return movie._id !== card;
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
-  // React.useEffect(() => {
-  //   handleTokenCheck();
-  // }, [handleTokenCheck, loggedIn]);
+  React.useEffect(() => {
+    handleTokenCheck();
+  }, [handleTokenCheck, loggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -271,10 +285,12 @@ function App() {
               movies={movies}
               getMovies={getMovies}
               onCardClick={onCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
               setshort={setshort}
               loader={loader}
+              saveMovies={saveMovies}
               type="movies"
-              onLike={handleCardLike}
             ></ProtectedRoute>
             <ProtectedRoute
               path="/saved-movies"
@@ -283,6 +299,7 @@ function App() {
               movies={saveMovies}
               getMovies={getMovies}
               onCardClick={onCardClick}
+              onCardDelete={handleCardDelete}
               setshort={setshort}
               type="saved-movies"
             ></ProtectedRoute>

@@ -14,7 +14,7 @@ class MainApi {
 
   getMovies() {
     console.log("load saved movies");
-    return fetch(this._baseUrl, {
+    return fetch(`${this._baseUrl}/movies`, {
       headers: {
         authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
@@ -43,14 +43,14 @@ class MainApi {
     }).then(this.handleResponse);
   }
 
-  saveMovie(movieId) {
+  saveMovie(movie) {
     return fetch(`${this._baseUrl}/movies`, {
       method: "POST",
       headers: {
         authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(movieId),
+      body: JSON.stringify(movie),
     }).then(this.handleResponse);
   }
 

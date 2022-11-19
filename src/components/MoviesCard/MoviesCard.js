@@ -3,24 +3,40 @@ import "./MoviesCard.css";
 import { useLocation } from "react-router-dom";
 import deleteIcon from "../../images/deleteicon.svg";
 import saveIcon from "../../images/saveicon.svg";
+import likegreen from "../../images/likegreen.svg";
 
 function MoviesCard(props) {
-  const { movie, onCardClick } = props;
-  // const user = React.useContext(CurrentUserContext);
-  // const movie = movie_array.movie;
+  const {
+    movie,
+    onCardClick,
+    saveMovies,
+    triger = "off",
+    onCardLike,
+    onCardDelete,
+  } = props;
 
-  const baseImageUrl = `https://api.nomoreparties.co/${movie.image.url}`;
+  const baseImageUrl = movie.image;
+  // movie._id ||
+  const [id, setId] = React.useState(movie._id || "");
 
-  // const isOwn = cardElement.owner === user._id;
-  // console.log(isOwn);
-  // const cardDeleteButtonClassName = `element__trash ${
-  //   isOwn ? "" : "element_trash-inactive"
-  // }`;
+  React.useEffect(() => {
+    console.log(triger);
+    // console.log(movie.movieId);
+    if (triger == "On") {
+      setId(checkMovieStatus(movie, saveMovies));
+    }
+  }, [saveMovies, movie, triger]);
 
-  // const isLiked = cardElement.likes.some((i) => i === user._id);
-  // const cardLikeButtonClassName = `element__like-button ${
-  //   isLiked ? "element__like-button_active" : ""
-  // }`;
+  function checkMovieStatus(movie, savedMovies) {
+    let id = "";
+    savedMovies.forEach((item) => {
+      if (item.movieId == movie.movieId) {
+        id = item._id;
+      }
+    });
+    return id;
+  }
+
   function getOurs(duration) {
     const hours = Math.floor(duration / 60);
     const minutes = duration % 60;
@@ -30,20 +46,40 @@ function MoviesCard(props) {
     onCardClick(movie.trailerLink);
   }
 
-  function handleLikeClick() {
-    onCardLike(cardElement);
+  function handleLikeClick(movieElement) {
+    console.log("лайкаем");
+    onCardLike(movieElement);
   }
 
-  function handleDeleteClick() {
-    onCardDelete(cardElement);
+  function handleDeleteClick(movieElement) {
+    console.log("удаляем");
+    onCardDelete(movieElement);
   }
 
   function changeIcon(props) {
     const location = useLocation();
+    // console.log("changeicon");
+    // console.log(id);
+
     if (location.pathname === "/movies") {
-      return saveIcon;
+      if (id) {
+        return likegreen;
+      } else {
+        return saveIcon;
+      }
     }
     return deleteIcon;
+  }
+
+  function handlerChangeClick(e) {
+    e.preventDefault();
+    console.log("handlerChangeClick");
+    console.log(id);
+    if (id) {
+      handleDeleteClick(id);
+    } else {
+      handleLikeClick(movie);
+    }
   }
 
   return (
@@ -55,9 +91,16 @@ function MoviesCard(props) {
         </div>
         <button
           type="button"
-          className="movie__icon"
+          className={
+            "movie__icon"
+            // triger === "On"
+            //   ? id
+            //     ? "movie__icon-button-empty"
+            //     : "movie__icon"
+            //   : "movie__icon-button"
+          }
           style={{ backgroundImage: `url(${changeIcon()})` }}
-          onClick={changeIcon}
+          onClick={handlerChangeClick}
         ></button>
       </div>
       <img

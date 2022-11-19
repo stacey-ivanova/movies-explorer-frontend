@@ -86,7 +86,9 @@
   cursor: pointer;
   opacity: 0.8;
 }
-
+.account__edit:disabled {
+  color: red;
+}
 @media screen and (max-width: 767px) {
   .account__edit {
     margin-top: 220px;
