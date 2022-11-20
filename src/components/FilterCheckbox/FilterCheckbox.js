@@ -1,19 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./FilterCheckbox.css";
 
 function FilterCheckbox(props) {
   const { setshort } = props;
+const [checkboxStatus, setCheckboxStatus] = useState(false)
 
-  // const check = document.alert(parentNode.getElementsByName("hidden-checkbox"));
-  // console.log(check);
+
   function handleShortFilm(e) {
-    e.preventDefault();
-    console.log(e.currentTarget.checked);
-    if (e.currentTarget.checked) setshort(true);
+        const checkbox=document.querySelector(".hidden-checkbox").checked
+    console.log(checkbox)
+    if (checkbox)
+    {setshort(true);
+      setCheckboxStatus(true)}
     else {
+      setCheckboxStatus(false)
       setshort(false);
     }
   }
+
   return (
     <div className="checkbox__container">
       <label className="checkbox">
@@ -22,7 +26,7 @@ function FilterCheckbox(props) {
           onChange={handleShortFilm}
           className="hidden-checkbox"
         ></input>
-        <span className="visible-checkbox"></span>
+        {/* <span className="visible-checkbox"></span> */}
       </label>
       <p className="checkbox__text">Короткометражки</p>
     </div>

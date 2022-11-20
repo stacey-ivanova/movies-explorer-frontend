@@ -25,7 +25,10 @@ function App() {
   const history = useHistory();
   const [userEmail, setUserEmail] = React.useState("");
   const [userName, setUserName] = React.useState("");
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(() => {
+    const token = localStorage.getItem("token");
+    return token !== null;
+  });
   const [short, setshort] = React.useState(false);
   const [movies, setMovies] = React.useState(
     JSON.parse(localStorage.getItem("movies")) || []
@@ -255,17 +258,17 @@ function App() {
         <div className="page">
           <Switch>
             <Route exact path={["/", "/movies", "/saved-movies", "/profile"]}>
-              <Header />
+              <Header loggedIn={loggedIn}/>
             </Route>
             <Route path={["/signup", "/signin"]}> </Route>
           </Switch>
           <Switch>
-            <ProtectedRoute
+            <Route
               exact
               path="/"
               loggedIn={loggedIn}
               component={Main}
-            ></ProtectedRoute>
+            ></Route>
             <Route path="/signup">
               <InfoTooltip
                 isOpen={isInfoTooltipPopupOpen}
