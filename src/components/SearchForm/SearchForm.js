@@ -4,40 +4,34 @@ import "./SearchForm.css";
 import searchButton from "../../images/arrow.svg";
 import searchButtonDisabled from "../../images/arrow_dis.svg";
 import useInput from "../Validate/Validate";
+// import React, { useEffect, useState } from "react";
 
 function SearchForm(props) {
-  const { getMovies, type } = props;
-  const [filterValue, setfilterValue] = React.useState("");
+  const { getMovies, type, saveFilter, disableButton } = props;
+  const [filterValue, setfilterValue] = React.useState(saveFilter || "");
   const formInput = useInput(filterValue, {
-    isEmpty: true,
+    // isEmpty: true,
     isText: true,
-    isIdent: true,
+    // isIdent: true,
   });
-  // console.log(`istext: ${formInput.isTextError}`);
-  // console.log(`forminput ${formInput.inputValid}`);
-  // console.log(
-  //   `disabledvalue ${
-  //     document.querySelector(".searchform__submit-button").disabled
-  //   }`
-  // );
 
   function handleSubmit(e) {
     e.preventDefault();
-    // console.log("submit");
+    if (type == "movies") {
+      localStorage.setItem("filter", filterValue);
+    }
     getMovies(filterValue, type);
   }
   function handleCheck(e) {
     const findstr = document.querySelector(".searchform__item").value;
     // console.log(findstr);
     if (findstr) {
-      // if ((type = "movie")) {
-      //   localStorage.setItem("filter", findstr);
-      // }
       setfilterValue(findstr);
     } else {
       setfilterValue("");
     }
     // console.log(filterValue);
+
     getMovies(filterValue, type);
   }
   function handleFindChange(e) {
@@ -45,6 +39,14 @@ function SearchForm(props) {
     setfilterValue(e.target.value);
   }
 
+  React.useEffect(() => {
+    console.log(`выводим filter ${saveFilter}`);
+    if (saveFilter) {
+      // setfilterValue(saveFilter);
+      getMovies(saveFilter, type);
+    }
+    // getMovies());
+  }, []);
   return (
     <div className="searchform">
       <form onSubmit={handleSubmit} className="searchform__container">
@@ -53,6 +55,7 @@ function SearchForm(props) {
           name="film"
           placeholder="Фильм"
           onChange={handleFindChange}
+          value={formInput.values}
         ></input>
         {formInput.isTextError && (
           <span className="searchform__item-error">
@@ -67,7 +70,7 @@ function SearchForm(props) {
               formInput.inputValid ? searchButton : searchButtonDisabled
             })`,
           }}
-          disabled={!formInput.inputValid}
+          disabled={!formInput.inputValid || disableButton}
         ></button>
       </form>
       <FilterCheckbox submit={handleCheck} />

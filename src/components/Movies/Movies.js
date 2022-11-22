@@ -5,6 +5,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Preloader from "../Preloader/Preloader";
 import MoreButton from "../MoreButton/MoreButton";
 import useResize from "../../utils/useResize";
+import { BASE_COUNT_MOVIES, MORE_COUNT_MOVIES } from "../../conf/Const";
 
 function Movies(props) {
   const {
@@ -16,25 +17,31 @@ function Movies(props) {
     loader,
     type,
     saveMovies,
+    saveFilter,
+    disableButton,
   } = props;
   const isWindowSize = useResize();
-  const [baseCountMovies, setBaseCountMovies] = React.useState(12);
-  const [moreCountMovies, setMoreCountMovies] = React.useState(0);
+  const [baseCountMovies, setBaseCountMovies] = React.useState(
+    BASE_COUNT_MOVIES.big
+  );
+  const [moreCountMovies, setMoreCountMovies] = React.useState(
+    MORE_COUNT_MOVIES.start
+  );
 
   const [countIncr, setCountIncr] = React.useState(
-    isWindowSize === 3 ? count1 : 2
+    isWindowSize === "big" ? MORE_COUNT_MOVIES.big : MORE_COUNT_MOVIES.small
   );
 
   React.useEffect(() => {
     if (isWindowSize === "big") {
-      setBaseCountMovies(12);
-      setCountIncr(3);
+      setBaseCountMovies(BASE_COUNT_MOVIES.big);
+      setCountIncr(MORE_COUNT_MOVIES.big);
     } else if (isWindowSize === "medium") {
-      setBaseCountMovies(8);
-      setCountIncr(2);
+      setBaseCountMovies(BASE_COUNT_MOVIES.medium);
+      setCountIncr(MORE_COUNT_MOVIES.small);
     } else if (isWindowSize === "small") {
-      setBaseCountMovies(5);
-      setCountIncr(2);
+      setBaseCountMovies(BASE_COUNT_MOVIES.small);
+      setCountIncr(MORE_COUNT_MOVIES.small);
     }
   }, [isWindowSize]);
 
@@ -43,7 +50,12 @@ function Movies(props) {
   }
   return (
     <section className="movies">
-      <SearchForm getMovies={getMovies} type={type} />
+      <SearchForm
+        getMovies={getMovies}
+        type={type}
+        saveFilter={saveFilter}
+        disableButton={disableButton}
+      />
       {(() => {
         if (loader) {
           return <Preloader />;

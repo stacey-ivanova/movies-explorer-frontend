@@ -6,12 +6,12 @@ import useInput from "../Validate/Validate";
 
 function Profile(props) {
   const { mail, name, onUpdateUser, handleLogout, changeMsg } = props;
-  console.log(`name ${name}`);
-  console.log(`mail ${mail}`);
+  // console.log(`name ${name}`);
+  // console.log(`mail ${mail}`);
   const [userMail, setUserEmail] = useState(
     mail ? mail : localStorage.getItem("email")
   );
-  console.log(`userMail ${userMail}`);
+  // console.log(`userMail ${userMail}`);
   const [userName, setUserName] = useState(
     name ? name : localStorage.getItem("name")
   );
@@ -36,18 +36,20 @@ function Profile(props) {
 
   function handleNameChange(e) {
     nameInput.handleChange(e);
+    // setUserName(e.currentTarget.value);
   }
 
   function handleEmailChange(e) {
     emailInput.handleChange(e);
+    // setUserEmail(emailInput.values);
+    // console.log(`userMail2 ${userMail}`);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    setUserName(nameInput.values);
-    setUserEmail(emailInput.values);
-    console.log(`name2 ${name}`);
-    console.log(`userMail2 ${userMail}`);
+    const userName = nameInput.values;
+    const userMail = emailInput.values;
+
     onUpdateUser({ userName, userMail });
   }
 
@@ -97,7 +99,7 @@ function Profile(props) {
           </label>
         </div>
         <label className="account__button-lable">
-          {changeMsg && (
+          {changeMsg != "" && (
             <span className="form__item-msg_active">{changeMsg}</span>
           )}
           <button

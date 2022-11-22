@@ -17,6 +17,7 @@ import * as auth from "../../utils/Auth.js";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import moviesMapper from "../../utils/MovieMaper";
+import { SHORT_VIDEO_SIZE } from "../../conf/Const";
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
@@ -29,6 +30,7 @@ function App() {
     const token = localStorage.getItem("token");
     return token !== null;
   });
+  const [disableButton, setDisableButton] = React.useState(false);
   const [movies, setMovies] = React.useState(
     JSON.parse(localStorage.getItem("movies")) || []
   );
@@ -40,25 +42,44 @@ function App() {
   const [changeMsg, setChangeMsg] = React.useState("");
   function getMovies(filter, type) {
     // console.log("getmovies");
-    // console.log(filter);
+    console.log(
+      `massive ${JSON.parse(localStorage.getItem(`${type}`)) != null}`
+    );
+    console.log(`short ${JSON.parse(localStorage.getItem("short"))}`);
+    console.log(`filter ${filter}`);
     // console.log(localStorage.getItem("short"));
-    if (localStorage.getItem("short")) {
+    if (
+      JSON.parse(localStorage.getItem("short")) &&
+      JSON.parse(localStorage.getItem(`${type}`) != null)
+    ) {
+      console.log("in first get");
+      setDisableButton(true);
+      console.log(filter);
       filterFilms(filter, type);
     } else {
+      console.log("in else get");
       if (type === "movies") {
         if (JSON.parse(localStorage.getItem("movies"))) {
-          const movemaper = JSON.parse(localStorage.getItem("movies"));
-          setMovies(movemaper);
+          if (filter || filter === "") {
+            console.log("go to filter");
+            filterFilms(filter, type);
+          } else {
+            console.log("get without filter");
+            setMovies(movemaper);
+          }
         } else {
+          console.log("in movies if");
+          setDisableButton(true);
           setLoader(true);
           moviesApi
             .getMovies()
             .then((mov) => {
               const movemaper = moviesMapper(mov);
               localStorage.setItem("movies", JSON.stringify(movemaper));
-              if (filter) {
-                filterFilms(filter, type);
+              console.log(`filter in movies ${filter}`);
+              if (filter || filter === "") {
               } else {
+                console.log("get without filter");
                 setMovies(movemaper);
               }
             })
@@ -66,10 +87,12 @@ function App() {
               console.log(err);
             })
             .finally(() => {
+              setDisableButton(false);
               setLoader(false);
             });
         }
       } else if (type === "saved-movies") {
+        setDisableButton(true);
         setLoader(true);
         mainApi
           .getMovies()
@@ -90,6 +113,7 @@ function App() {
           })
           .finally(() => {
             setLoader(false);
+            setDisableButton(false);
           });
       }
     }
@@ -104,9 +128,9 @@ function App() {
   }
   function filterFilms(filter, page) {
     let moviesfilter = JSON.parse(localStorage.getItem(`${page}`));
-    if (localStorage.getItem("short")) {
-      // console.log("short");
-      moviesfilter = moviesfilter.filter((m) => m.duration <= 40);
+    if (JSON.parse(localStorage.getItem("short"))) {
+      console.log(`moviesfilter ${moviesfilter}`);
+      moviesfilter = moviesfilter.filter((m) => m.duration <= SHORT_VIDEO_SIZE);
       // console.log(moviesfilter);
     } else {
       // console.log(" notshort");
@@ -118,12 +142,15 @@ function App() {
     );
     if (page === "movies") {
       setMovies(filtredMovies);
+      setDisableButton(false);
     } else {
       setSaveMovies(filtredMovies);
+      setDisableButton(false);
     }
   }
 
   function handleRegister(name, email, password) {
+    setDisableButton(true);
     auth
       .register(name, email, password)
       .then((res) => {
@@ -136,10 +163,14 @@ function App() {
       .catch((err) => {
         console.log(err);
         handleInfoTooltipPopupOpen(false);
+      })
+      .finally(() => {
+        setDisableButton(false);
       });
   }
 
   function handleSignin(email, password) {
+    setDisableButton(true);
     auth
       .login(email, password)
       .then((data) => {
@@ -154,7 +185,10 @@ function App() {
           history.push("/movies");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setDisableButton(false);
+      });
   }
 
   function handleLogin() {
@@ -198,21 +232,28 @@ function App() {
   }
 
   function handleUpdateUser(user) {
+    setDisableButton(true);
     mainApi
       .changeUserInfo(user)
       .then((data) => {
-        setCurrentUser(data.data);
-        console.log(data);
+        setCurrentUser(data);
+
+        console.log(`выводим что записываем ${data.name}`);
+        console.log(`выводим что записываем ${data.email}`);
         localStorage.setItem("name", data.name);
         localStorage.setItem("email", data.email);
+        setUserEmail(data.email);
+        setUserName(data.name);
         setChangeMsg("Данные успешно обновлены");
+        setTimeout(() => setChangeMsg(""), 1000);
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        // setTimeout(setChangeMsg(""), 10000);
+        setDisableButton(false);
       });
+    // .finally(() => {});
   }
 
   function handleCardLike(movie) {
@@ -246,6 +287,12 @@ function App() {
     handleTokenCheck();
     setChangeMsg("");
   }, [loggedIn]);
+
+  // React.useEffect(() => {
+  //   const filter = localStorage.getItem("filter");
+  //   console.log(`выводим filter ${filter}`);
+  //   // getMovies());
+  // }, []);
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page-content">
@@ -282,6 +329,8 @@ function App() {
               onCardDelete={handleCardDelete}
               loader={loader}
               saveMovies={saveMovies}
+              disableButton={disableButton}
+              saveFilter={localStorage.getItem("filter")}
               type="movies"
             ></ProtectedRoute>
             <ProtectedRoute
@@ -291,6 +340,7 @@ function App() {
               movies={saveMovies}
               getMovies={getMovies}
               onCardClick={onCardClick}
+              disableButton={disableButton}
               onCardDelete={handleCardDelete}
               type="saved-movies"
             ></ProtectedRoute>
