@@ -13,7 +13,6 @@ class MainApi {
   }
 
   getMovies() {
-    console.log("load saved movies");
     return fetch(`${this._baseUrl}/movies`, {
       headers: {
         authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -24,12 +23,10 @@ class MainApi {
 
   changeUserInfo(user) {
     const user_info = JSON.stringify({
-      name: user.name,
-      email: user.email,
+      name: user.userName,
+      email: user.userMail,
     });
-
     console.log(user_info);
-
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: {
@@ -37,8 +34,8 @@ class MainApi {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: user.name,
-        email: user.email,
+        name: user.userName,
+        email: user.userMail,
       }),
     }).then(this.handleResponse);
   }
@@ -82,7 +79,6 @@ class MainApi {
 
 const mainApi = new MainApi({
   baseMainUrl: "https://api.movie.stacey.nomoredomains.icu",
-  // baseMainUrl: "https://localhost:3001",
   headers: {
     authorization: `Bearer ${localStorage.getItem("token")}`,
     "Content-Type": "application/json",

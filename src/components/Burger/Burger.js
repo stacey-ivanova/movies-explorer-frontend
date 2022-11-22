@@ -10,7 +10,7 @@ function MoreButton(props) {
         <div className="burgerline"></div>
       </div>
       <div className="menu__burger">
-        <div>
+        <div className="menu__burger-content">
           <ul className="menu__burger-list">
             <li>
               <NavLink to="/" className="menu__burger-list-item">

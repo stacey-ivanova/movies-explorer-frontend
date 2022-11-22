@@ -58,7 +58,7 @@ function SavedMovies(props) {
             </>
           );
         } else {
-          return <p className="empty__cardlist">Тут еще ничего нет</p>;
+          return <p className="empty__cardlist">Ничего не найдено</p>;
         }
       })()}
     </section>

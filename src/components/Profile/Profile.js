@@ -1,45 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import "./Profile.css";
 import useInput from "../Validate/Validate";
 
 function Profile(props) {
-  const { mail, name, onUpdateUser, handleLogout } = props;
-  console.log(mail)
-  console.log(name)
-  const emailInput = useInput(mail, {
-    isEmpty: true,
-    isEmail: true,
-    isIdent: true
-  },mail);
-  const nameInput = useInput(name, {
-    isEmpty: true,
-    isIdent: true
-  },name);
-  // const user = React.useContext(CurrentUserContext);
+  const { mail, name, onUpdateUser, handleLogout, changeMsg } = props;
+  console.log(`name ${name}`);
+  console.log(`mail ${mail}`);
+  const [userMail, setUserEmail] = useState(
+    mail ? mail : localStorage.getItem("email")
+  );
+  console.log(`userMail ${userMail}`);
+  const [userName, setUserName] = useState(
+    name ? name : localStorage.getItem("name")
+  );
 
-  React.useEffect(() => {
-    console.log("Хочу спать0");
-    console.log(emailInput.values);
-    console.log(nameInput.values);
-  }, [name, mail]);
+  const emailInput = useInput(
+    userMail,
+    {
+      isEmpty: true,
+      isEmail: true,
+      isIdent: true,
+    },
+    userMail
+  );
+  const nameInput = useInput(
+    userName,
+    {
+      isEmpty: true,
+      isIdent: true,
+    },
+    userName
+  );
 
   function handleNameChange(e) {
     nameInput.handleChange(e);
-    // setName(e.target.value);
   }
 
   function handleEmailChange(e) {
     emailInput.handleChange(e);
-    // setEmail(e.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    const name = nameInput.values;
-    const email = emailInput.values;
-    onUpdateUser({ name, email });
+    setUserName(nameInput.values);
+    setUserEmail(emailInput.values);
+    console.log(`name2 ${name}`);
+    console.log(`userMail2 ${userMail}`);
+    onUpdateUser({ userName, userMail });
   }
 
   function handleLogOut(e) {
@@ -57,12 +66,10 @@ function Profile(props) {
             <input
               className="account__data-row-text"
               name="name"
-              // minLength="5"
-              // maxLength="15"
               value={nameInput.values}
               onChange={handleNameChange}
             ></input>
-            {(nameInput.isDirty && nameInput.isEmpty && nameInput.isIdent) && (
+            {nameInput.isEmpty && nameInput.isIdent && (
               <span className="form__item-error_active">
                 Введены некоректные данные
               </span>
@@ -80,21 +87,30 @@ function Profile(props) {
               value={emailInput.values}
               onChange={handleEmailChange}
             ></input>
-            {(emailInput.isDirty &&
-              emailInput.isEmpty &&
-              emailInput.isEmailError && emailInput.isIdent ) && (
+            {emailInput.isEmpty &&
+              emailInput.isEmailError &&
+              emailInput.isIdent && (
                 <span className="form__item-error_active">
                   Введены некоректные данные
                 </span>
               )}
           </label>
         </div>
-        <button
-          disabled={(!emailInput.inputValid && !nameInput.inputValid) && (!emailInput.inputValid || !nameInput.inputValid)}
-          className="account__edit"
-        >
-          Редактировать
-        </button>
+        <label className="account__button-lable">
+          {changeMsg && (
+            <span className="form__item-msg_active">{changeMsg}</span>
+          )}
+          <button
+            disabled={
+              !emailInput.inputValid &&
+              !nameInput.inputValid &&
+              (!emailInput.inputValid || !nameInput.inputValid)
+            }
+            className="account__edit"
+          >
+            Редактировать
+          </button>
+        </label>
         <Link onClick={handleLogOut} className="account__exit" to="/">
           Выйти из аккаунта
         </Link>

@@ -16,12 +16,10 @@ function MoviesCard(props) {
   } = props;
 
   const baseImageUrl = movie.image;
-  // movie._id ||
+
   const [id, setId] = React.useState(movie._id || "");
 
   React.useEffect(() => {
-    console.log(triger);
-    // console.log(movie.movieId);
     if (triger == "On") {
       setId(checkMovieStatus(movie, saveMovies));
     }
@@ -47,19 +45,15 @@ function MoviesCard(props) {
   }
 
   function handleLikeClick(movieElement) {
-    console.log("лайкаем");
     onCardLike(movieElement);
   }
 
   function handleDeleteClick(movieElement) {
-    console.log("удаляем");
     onCardDelete(movieElement);
   }
 
   function changeIcon(props) {
     const location = useLocation();
-    // console.log("changeicon");
-    // console.log(id);
 
     if (location.pathname === "/movies") {
       if (id) {
@@ -73,8 +67,7 @@ function MoviesCard(props) {
 
   function handlerChangeClick(e) {
     e.preventDefault();
-    console.log("handlerChangeClick");
-    console.log(id);
+
     if (id) {
       handleDeleteClick(id);
     } else {
@@ -91,14 +84,7 @@ function MoviesCard(props) {
         </div>
         <button
           type="button"
-          className={
-            "movie__icon"
-            // triger === "On"
-            //   ? id
-            //     ? "movie__icon-button-empty"
-            //     : "movie__icon"
-            //   : "movie__icon-button"
-          }
+          className={"movie__icon"}
           style={{ backgroundImage: `url(${changeIcon()})` }}
           onClick={handlerChangeClick}
         ></button>

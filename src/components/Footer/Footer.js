@@ -2,7 +2,7 @@ import React from "react";
 import "./Footer.css";
 
 function Footer(props) {
-  // {year} = props;
+const {year} = props;
   return (
     <footer className="footer">
       <h4 className="footer__text">

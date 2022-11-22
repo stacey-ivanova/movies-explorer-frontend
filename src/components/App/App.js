@@ -29,7 +29,6 @@ function App() {
     const token = localStorage.getItem("token");
     return token !== null;
   });
-  const [short, setshort] = React.useState(false);
   const [movies, setMovies] = React.useState(
     JSON.parse(localStorage.getItem("movies")) || []
   );
@@ -38,38 +37,52 @@ function App() {
   );
   const [loader, setLoader] = React.useState(false);
   const year = new Date().getFullYear();
-
-  React.useEffect(() => {
-    handleTokenCheck();
-    // console.log(short);
-  }, [handleTokenCheck, loggedIn]);
-
-  // React.useEffect(() => {
-  //   setMovies(JSON.parse(localStorage.getItem("movies")));
-  // }, []);
-
+  const [changeMsg, setChangeMsg] = React.useState("");
   function getMovies(filter, type) {
-    if (type === "movies") {
-      if (JSON.parse(localStorage.getItem("movies"))) {
-        if (filter || short) {
-          filterFilms(filter, short, type);
-        } else {
+    // console.log("getmovies");
+    // console.log(filter);
+    // console.log(localStorage.getItem("short"));
+    if (localStorage.getItem("short")) {
+      filterFilms(filter, type);
+    } else {
+      if (type === "movies") {
+        if (JSON.parse(localStorage.getItem("movies"))) {
           const movemaper = JSON.parse(localStorage.getItem("movies"));
           setMovies(movemaper);
+        } else {
+          setLoader(true);
+          moviesApi
+            .getMovies()
+            .then((mov) => {
+              const movemaper = moviesMapper(mov);
+              localStorage.setItem("movies", JSON.stringify(movemaper));
+              if (filter) {
+                filterFilms(filter, type);
+              } else {
+                setMovies(movemaper);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+            .finally(() => {
+              setLoader(false);
+            });
         }
-      } else {
+      } else if (type === "saved-movies") {
         setLoader(true);
-        moviesApi
+        mainApi
           .getMovies()
           .then((mov) => {
-            console.log(mov);
-            const movemaper = moviesMapper(mov);
-            localStorage.setItem("movies", JSON.stringify(movemaper));
+            const movemaper = mov.map((movie_iter) => {
+              return movie_iter;
+            });
+            localStorage.setItem("saved-movies", JSON.stringify(movemaper));
+
             if (filter) {
-              // setMovies(movemaper);
-              filterFilms(filter, short, type);
+              filterFilms(filter, type);
             } else {
-              setMovies(movemaper);
+              setSaveMovies(movemaper);
             }
           })
           .catch((err) => {
@@ -79,30 +92,6 @@ function App() {
             setLoader(false);
           });
       }
-    } else if (type === "saved-movies") {
-      setLoader(true);
-      mainApi
-        .getMovies()
-        .then((mov) => {
-          console.log(mov);
-          const movemaper = mov.map((movie_iter) => {
-            return movie_iter;
-          });
-
-          if (filter) {
-            // setSaveMovies(movemaper);
-            filterFilms(filter, short, type);
-          } else {
-            setSaveMovies(movemaper);
-            console.log(saveMovies);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setLoader(false);
-        });
     }
   }
 
@@ -113,19 +102,25 @@ function App() {
   function closePopup() {
     setIsTooltipPopupOpen(false);
   }
-  function filterFilms(filter, isShort, page) {
-    console.log(page);
-    let moviesfilter = JSON.parse(localStorage.getItem("movies"));
-    if (isShort) {
-      console.log(moviesfilter);
+  function filterFilms(filter, page) {
+    let moviesfilter = JSON.parse(localStorage.getItem(`${page}`));
+    if (localStorage.getItem("short")) {
+      // console.log("short");
       moviesfilter = moviesfilter.filter((m) => m.duration <= 40);
+      // console.log(moviesfilter);
+    } else {
+      // console.log(" notshort");
+      moviesfilter = moviesfilter;
+      // console.log(moviesfilter);
     }
-    console.log(moviesfilter);
     const filtredMovies = moviesfilter.filter(
-      (m) => m.nameRU.indexOf(filter) !== -1
+      (m) => m.nameRU.toLowerCase().indexOf(filter.toLowerCase()) !== -1
     );
-    console.log(filtredMovies);
-    setMovies(filtredMovies);
+    if (page === "movies") {
+      setMovies(filtredMovies);
+    } else {
+      setSaveMovies(filtredMovies);
+    }
   }
 
   function handleRegister(name, email, password) {
@@ -133,6 +128,8 @@ function App() {
       .register(name, email, password)
       .then((res) => {
         if (res) {
+          localStorage.setItem("email", email);
+          localStorage.setItem("password", password);
           handleInfoTooltipPopupOpen(true);
         }
       })
@@ -164,10 +161,9 @@ function App() {
     setLoggedIn(true);
   }
   function handleLogout() {
-    console.log("logout");
     setLoggedIn(false);
     localStorage.clear();
-    setSavedMovies([]);
+    setSaveMovies([]);
     setMovies([]);
     history.push("/signin");
   }
@@ -184,19 +180,15 @@ function App() {
               setLoggedIn(true);
               setUserEmail(res.email);
               setUserName(res.name);
-
-              // history.push("/movies");
             }
           })
           .catch((err) => {
+            handleLogout();
             console.log(err);
           });
       } else {
-        setLoggedIn(true);
-
-        setUserEmail(localStorage.getItem("email"));
-        setUserName(localStorage.getItem("name"));
-        // history.push("/movies");
+        setLoggedIn(false);
+        handleLogout();
       }
     }
   }
@@ -206,14 +198,20 @@ function App() {
   }
 
   function handleUpdateUser(user) {
-    console.log(user);
     mainApi
       .changeUserInfo(user)
       .then((data) => {
         setCurrentUser(data.data);
+        console.log(data);
+        localStorage.setItem("name", data.name);
+        localStorage.setItem("email", data.email);
+        setChangeMsg("Данные успешно обновлены");
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        // setTimeout(setChangeMsg(""), 10000);
       });
   }
 
@@ -234,11 +232,8 @@ function App() {
     mainApi
       .deleteMovie(card)
       .then((deleteCard) => {
-        console.log(deleteCard);
         setSaveMovies(
           saveMovies.filter((movie) => {
-            console.log(movie._id);
-            console.log(card);
             return movie._id !== card;
           })
         );
@@ -247,30 +242,25 @@ function App() {
         console.log(err);
       });
   }
-
   React.useEffect(() => {
     handleTokenCheck();
-  }, [handleTokenCheck, loggedIn]);
-
+    setChangeMsg("");
+  }, [loggedIn]);
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page-content">
         <div className="page">
           <Switch>
             <Route exact path={["/", "/movies", "/saved-movies", "/profile"]}>
-              <Header loggedIn={loggedIn}/>
+              <Header loggedIn={loggedIn} />
             </Route>
             <Route path={["/signup", "/signin"]}> </Route>
           </Switch>
           <Switch>
-            <Route
-              exact
-              path="/"
-              loggedIn={loggedIn}
-              component={Main}
-            ></Route>
+            <Route exact path="/" loggedIn={loggedIn} component={Main}></Route>
             <Route path="/signup">
               <InfoTooltip
+                sigin={handleSignin}
                 isOpen={isInfoTooltipPopupOpen}
                 success={isSuccessRegister}
                 onClose={closePopup}
@@ -290,7 +280,6 @@ function App() {
               onCardClick={onCardClick}
               onCardLike={handleCardLike}
               onCardDelete={handleCardDelete}
-              setshort={setshort}
               loader={loader}
               saveMovies={saveMovies}
               type="movies"
@@ -303,11 +292,12 @@ function App() {
               getMovies={getMovies}
               onCardClick={onCardClick}
               onCardDelete={handleCardDelete}
-              setshort={setshort}
               type="saved-movies"
             ></ProtectedRoute>
             <ProtectedRoute
               path="/profile"
+              currentUser={currentUser}
+              changeMsg={changeMsg}
               loggedIn={loggedIn}
               component={Profile}
               mail={userEmail}
@@ -323,7 +313,13 @@ function App() {
             <Route exact path={["/", "/movies", "/saved-movies", "/profile"]}>
               <Footer year={year} />
             </Route>
-            <Route path={["/signup", "/signin"]}> </Route>
+            {!loggedIn ? (
+              <>
+                <Route path={["/signup", "/signin"]}> </Route>
+              </>
+            ) : (
+              <Redirect to="/" />
+            )}
           </Switch>
         </div>
       </div>

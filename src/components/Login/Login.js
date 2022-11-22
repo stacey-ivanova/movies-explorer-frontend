@@ -9,27 +9,27 @@ function Login(props) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const emailInput = useInput('', {
+  const emailInput = useInput("", {
     isEmpty: true,
     isEmail: true,
   });
-  const passwordInput = useInput('', {
+  const passwordInput = useInput("", {
     isEmpty: true,
   });
 
   function handleEmailChange(e) {
     emailInput.handleChange(e);
-    // setEmail(e.target.value);
+    setEmail(e.target.value);
   }
 
   function handlePasswordChange(e) {
     passwordInput.handleChange(e);
-    // setPassword(e.target.value);
+    setPassword(e.target.value);
   }
 
   function handleSubmit(e) {
-    const email=emailInput.values
-    const password =passwordInput.values
+    const email = emailInput.values;
+    const password = passwordInput.values;
     e.preventDefault();
     props.handleSignin(email, password);
   }
@@ -50,11 +50,13 @@ function Login(props) {
             id="email-input"
             value={emailInput.values}
             onChange={handleEmailChange}
+            onBlur={emailInput.handleBlur}
           />
-          {(emailInput.isDirty && emailInput.isEmpty && emailInput.isEmail) && (
-          <span className="form__item-error email-input-error">
-            Необходимо ввести e-mail
-          </span>)}
+          {emailInput.isDirty && emailInput.isEmpty && emailInput.isEmail && (
+            <span className="form__item-error email-input-error">
+              Необходимо ввести e-mail
+            </span>
+          )}
         </label>
         <label className="form__field">
           <p className="form__text">Пароль</p>
@@ -66,11 +68,13 @@ function Login(props) {
             minLength="7"
             value={passwordInput.values}
             onChange={handlePasswordChange}
+            onBlur={passwordInput.handleBlur}
           />
-          {(passwordInput.isDirty || passwordInput.isEmpty) && (
-          <span className="form__item-error pass-input-error">
-            Слишком короткий пароль
-          </span>)}
+          {passwordInput.isDirty && passwordInput.isEmpty && (
+            <span className="form__item-error pass-input-error">
+              Слишком короткий пароль
+            </span>
+          )}
         </label>
         <button
           className="form__submit-button form__submit-button_signin_m"

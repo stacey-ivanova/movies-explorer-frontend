@@ -6,10 +6,9 @@ const useWindowResize = () => {
   );
 
   const handleResize = () => {
-    console.log("handleResize");
-    if (window.innerWidth < 481) {
+    if (window.innerWidth < 767) {
       setisWindowSize("small");
-    } else if (window.innerWidth < 767 && window.innerWidth > 481)
+    } else if (window.innerWidth > 769 && window.innerWidth < 1279)
       setisWindowSize("medium");
     else {
       setisWindowSize("big");

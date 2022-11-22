@@ -1,5 +1,4 @@
 export const baseAuthUrl = "https://api.movie.stacey.nomoredomains.icu";
-// export const baseAuthUrl = "http://localhost:3001";
 
 const handleResponse = (res) => {
   if (res.ok) {
@@ -8,7 +7,6 @@ const handleResponse = (res) => {
 };
 
 export const register = (name, email, password) => {
-  console.log(JSON.stringify({ name, password, email }));
   return fetch(`${baseAuthUrl}/signup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -17,7 +15,6 @@ export const register = (name, email, password) => {
 };
 
 export const login = (email, password) => {
-  console.log(JSON.stringify({ password, email }));
   return fetch(`${baseAuthUrl}/signin`, {
     method: "POST",
     headers: {

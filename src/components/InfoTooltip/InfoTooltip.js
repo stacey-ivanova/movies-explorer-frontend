@@ -4,12 +4,17 @@ import denied from "../../images/denied.svg";
 import "./InfoTooltip.css";
 
 function InfoTooltip(props) {
-  const { isOpen, success, onClose, history } = props;
+  const { sigin, isOpen, success, onClose, history } = props;
 
   function handleRedirect() {
     if (success) {
       onClose();
-      history.push("/signin");
+      const email = localStorage.getItem("email");
+      const pass = localStorage.getItem("password");
+      sigin(email, pass);
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+      // history.push("/movie");
     } else {
       onClose();
     }

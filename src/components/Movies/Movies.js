@@ -13,7 +13,6 @@ function Movies(props) {
     onCardClick,
     onCardLike,
     onCardDelete,
-    setshort,
     loader,
     type,
     saveMovies,
@@ -21,7 +20,10 @@ function Movies(props) {
   const isWindowSize = useResize();
   const [baseCountMovies, setBaseCountMovies] = React.useState(12);
   const [moreCountMovies, setMoreCountMovies] = React.useState(0);
-  const [countIncr, setCountIncr] = React.useState(3);
+
+  const [countIncr, setCountIncr] = React.useState(
+    isWindowSize === 3 ? count1 : 2
+  );
 
   React.useEffect(() => {
     if (isWindowSize === "big") {
@@ -39,10 +41,9 @@ function Movies(props) {
   function handleMoreButtonClick() {
     setMoreCountMovies(moreCountMovies + countIncr);
   }
-
   return (
     <section className="movies">
-      <SearchForm getMovies={getMovies} setshort={setshort} type={type} />
+      <SearchForm getMovies={getMovies} type={type} />
       {(() => {
         if (loader) {
           return <Preloader />;
@@ -64,7 +65,7 @@ function Movies(props) {
             </>
           );
         } else {
-          return <p className="empty__cardlist">Тут еще ничего нет</p>;
+          return <p className="empty__cardlist">Ничего не найдено</p>;
         }
       })()}
     </section>

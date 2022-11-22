@@ -19,7 +19,7 @@ function changeHeader(props) {
 
 function Header(props) {
   const {loggedIn}=props
-  console.log(loggedIn)
+
   return (
     <header className={changeHeader()}>
       <Link to="/">
