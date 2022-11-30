@@ -87,11 +87,12 @@ function Register(props) {
             onBlur={emailInput.handleBlur}
             onChange={handleEmailChange}
           />
-          {emailInput.isDirty && emailInput.isEmpty && (
-            <span className="form__item-error email-input-error">
-              {emailInput.ErrorMsg}
-            </span>
-          )}
+          {emailInput.isDirty &&
+            (emailInput.isEmailError || emailInput.isEmpty) && (
+              <span className="form__item-error email-input-error">
+                {emailInput.ErrorMsg}
+              </span>
+            )}
         </label>
         <label className="form__field">
           <p className="form__text">Пароль</p>
