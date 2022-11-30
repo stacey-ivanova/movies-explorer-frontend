@@ -18,6 +18,8 @@ function changeHeader(props) {
 }
 
 function Header(props) {
+  const {loggedIn}=props
+
   return (
     <header className={changeHeader()}>
       <Link to="/">
@@ -25,12 +27,13 @@ function Header(props) {
       </Link>
       <div className="header__container">
         <Switch>
-          <Route exact path="/">
-            <NavigationMain />
-          </Route>
-          <Route path={["/movies", "/saved-movies", "/profile"]}>
+          {loggedIn ?(
+          <Route path={["/movies", "/saved-movies", "/profile", "/"]}>
             <NavigationMovie />
-          </Route>
+          </Route>):(          <Route exact path="/">
+            <NavigationMain />
+          </Route>)
+          }
         </Switch>
       </div>
     </header>

@@ -87,8 +87,7 @@
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 159px;
-  padding-bottom: 92px;
+
   min-height: 100vh;
 }
 
@@ -138,4 +137,8 @@
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;
+}
+.menu__burger-content {
+  margin-bottom: 92px;
+  margin-top: 159px;
 }

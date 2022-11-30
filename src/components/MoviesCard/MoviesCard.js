@@ -1,33 +1,100 @@
 import React from "react";
 import "./MoviesCard.css";
-import moviePhoto from "../../images/moviepic.svg";
 import { useLocation } from "react-router-dom";
 import deleteIcon from "../../images/deleteicon.svg";
 import saveIcon from "../../images/saveicon.svg";
-
-function changeIcon(props) {
-  const location = useLocation();
-  if (location.pathname === "/movies") {
-    return saveIcon;
-  }
-  return deleteIcon;
-}
+import likegreen from "../../images/likegreen.svg";
 
 function MoviesCard(props) {
+  const {
+    movie,
+    onCardClick,
+    saveMovies,
+    triger = "off",
+    onCardLike,
+    onCardDelete,
+  } = props;
+
+  const baseImageUrl = movie.image;
+
+  const [id, setId] = React.useState(movie._id || "");
+
+  React.useEffect(() => {
+    if (triger == "On") {
+      setId(checkMovieStatus(movie, saveMovies));
+    }
+  }, [saveMovies, movie, triger]);
+
+  function checkMovieStatus(movie, savedMovies) {
+    let id = "";
+    savedMovies.forEach((item) => {
+      if (item.movieId == movie.movieId) {
+        id = item._id;
+      }
+    });
+    return id;
+  }
+
+  function getOurs(duration) {
+    const hours = Math.floor(duration / 60);
+    const minutes = duration % 60;
+    return hours + "ч " + minutes + "м";
+  }
+  function handleClick() {
+    onCardClick(movie.trailerLink);
+  }
+
+  function handleLikeClick(movieElement) {
+    onCardLike(movieElement);
+  }
+
+  function handleDeleteClick(movieElement) {
+    onCardDelete(movieElement);
+  }
+
+  function changeIcon(props) {
+    const location = useLocation();
+
+    if (location.pathname === "/movies") {
+      if (id) {
+        return likegreen;
+      } else {
+        return saveIcon;
+      }
+    }
+    return deleteIcon;
+  }
+
+  function handlerChangeClick(e) {
+    e.preventDefault();
+
+    if (id) {
+      handleDeleteClick(id);
+    } else {
+      handleLikeClick(movie);
+    }
+  }
+
   return (
     <li className="movie">
       <div className="movie__container">
         <div className="movie__info">
-          <h2 className="movie__title">33 слова о дизайне</h2>
-          <p className="movie__length">1ч 47м</p>
+          <h2 className="movie__title">{movie.nameRU}</h2>
+          <p className="movie__length">{getOurs(movie.duration)}</p>
         </div>
         <button
           type="button"
-          className="movie__icon"
+          className={"movie__icon"}
           style={{ backgroundImage: `url(${changeIcon()})` }}
+          onClick={handlerChangeClick}
         ></button>
       </div>
-      <img className="movie__photo" src={moviePhoto} alt="постер фильма" />
+      <img
+        onClick={handleClick}
+        className="movie__photo"
+        src={baseImageUrl}
+        alt={movie.nameRU}
+      />
     </li>
   );
 }

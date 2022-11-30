@@ -1,14 +1,15 @@
 import React from "react";
 import "./PageNotFound.css";
+import { Link } from "react-router-dom";
 
 function PageNotFound(props) {
   return (
     <div className="error__content">
       <p className="error__num">404</p>
       <p className="error__text">Страница не найдена</p>
-      <a className="error__link" href="#">
+      <Link className="error__link" to="/">
         Назад
-      </a>
+      </Link>
     </div>
   );
 }

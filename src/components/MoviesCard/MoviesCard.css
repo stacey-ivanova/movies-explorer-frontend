@@ -22,6 +22,8 @@
 }
 
 .movie__container {
+  row-gap: 36px;
+  column-gap: 30px;
   padding: 14px;
   display: flex;
   flex-direction: row;
@@ -37,34 +39,52 @@
 }
 
 .movie__title {
+  text-overflow: ellipsis;
+  width: 280px;
   margin: 0px;
+  line-height: 18px;
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
   line-height: 18px;
 }
-
+@media screen and (max-width: 1279px) {
+  .movie__title {
+    width: 250px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .movie__title {
+    width: 210px;
+  }
+}
 .movie__length {
   margin: 0px;
   font-style: normal;
   font-weight: 400;
   font-size: 11px;
   line-height: 13px;
+  color: #8b8b8b;
 }
-
+.movie__icon-button-empty,
+.movie__icon-button,
 .movie__icon {
   width: 30px;
   height: 30px;
-  border-radius: 36px;
+  border-radius: 50%;
   background-color: #313131;
+  background-image: url("../../images/iconsave1.svg");
   background-position: center;
   background-size: cover;
   border: none;
   outline: none;
 }
+.movie__icon-button {
+  background-image: url("../../images/deleteicon.svg");
+}
 
-.movie__icon_active {
-  background-color: #3ddc84;
+.movie__icon-button-empty {
+  background-image: url("../../images/likegreen.svg");
 }
 
 .movie__icon:hover {
@@ -74,6 +94,9 @@
 
 .movie__photo {
   width: 364px;
+  height: 190px;
+  /* max-width: 100%;
+  max-height: 100%; */
 }
 
 @media screen and (max-width: 1279px) {

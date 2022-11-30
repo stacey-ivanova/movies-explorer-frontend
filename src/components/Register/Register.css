@@ -52,6 +52,10 @@
   }
 }
 
+.form__item:focus {
+  outline: 1px solid #3ddc84;
+}
+
 .form__submit-button {
   width: 100%;
   display: block;
@@ -67,6 +71,9 @@
   margin-top: 71px;
   border: none;
   font-family: "Inter";
+}
+.form__submit-button:disabled{
+  background: #2F2F2F;
 }
 
 .form__submit-button:hover {
@@ -170,9 +177,9 @@
 
 .form__item-error {
   display: none;
-}
+/* }
 
-.form__item-error_active {
+.form__item-error_active { */
   position: absolute;
   top: 85%;
   left: 0;

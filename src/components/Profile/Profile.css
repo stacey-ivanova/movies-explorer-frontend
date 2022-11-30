@@ -62,16 +62,33 @@
   font-size: 11px;
   line-height: 13px;
   margin-bottom: 16px;
+  margin-top: 11px;
+  background-color: #202020;
+  border: none;
+}
+
+.account__data-row-text:focus {
+  outline: 1px solid #3ddc84;
 }
 
 .account__edit {
   text-align: center;
-  margin: 220px auto 16px;
+
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
+  background-color: #202020;
+  color: #ffffff;
+  border: none;
 }
 
+.account__edit {
+  cursor: pointer;
+  opacity: 0.8;
+}
+.account__edit:disabled {
+  color: red;
+}
 @media screen and (max-width: 767px) {
   .account__edit {
     margin-top: 220px;
@@ -86,4 +103,35 @@
   line-height: 16px;
   text-decoration: none;
   color: #ee3465;
+}
+.account__input-lable {
+  position: relative;
+}
+.form__item-error_active {
+  position: absolute;
+  top: 65%;
+  left: 0;
+  display: block;
+  color: #ee3465;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+}
+.form__item-msg_active {
+  position: absolute;
+  top: 75%;
+  /* left: 0; */
+  align-items: center;
+  display: block;
+  color: #3ddc84;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+}
+.account__button-lable {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 220px 0 16px;
 }

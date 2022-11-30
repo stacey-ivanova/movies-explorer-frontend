@@ -32,5 +32,6 @@
     grid-template-rows: repeat(5, 1fr);
     row-gap: 16px;
     width: 320px;
+    margin-bottom: 30px;
   }
 }
