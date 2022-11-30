@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 export default function useInput(initValue, validations, currentValue) {
   const [values, setValues] = React.useState(initValue);
   const [isDirty, setDirty] = React.useState(false);
+
   const validate = useFormWithValidation(values, validations, currentValue);
   const handleChange = (event) => {
     setValues(event.target.value);
@@ -11,7 +12,14 @@ export default function useInput(initValue, validations, currentValue) {
     setDirty(true);
   };
 
-  return { values, handleChange, handleBlur, setValues, isDirty, ...validate };
+  return {
+    values,
+    handleChange,
+    handleBlur,
+    setValues,
+    isDirty,
+    ...validate,
+  };
 }
 function useFormWithValidation(value, validations, currentValue) {
   const [isEmpty, setEmpty] = useState(false);
@@ -19,9 +27,11 @@ function useFormWithValidation(value, validations, currentValue) {
   const [isTextError, setIsTextError] = useState(false);
   const [sameValueError, setSameValueError] = useState(false);
   const [inputValid, setInputValid] = useState(false);
-
+  const [ErrorMsg, setErrorMsg] = useState("");
+  const [isMinimalLengthError, setisMinimalLengthError] = useState(false);
   useEffect(() => {
-    console.log(value);
+    // console.log(value);
+
     for (const validatrion in validations) {
       switch (validatrion) {
         case "isEmail":
@@ -44,22 +54,52 @@ function useFormWithValidation(value, validations, currentValue) {
           const textRegexp = new RegExp(/^[а-яА-ЯёЁa-zA-Z\s]*$/);
           textRegexp.test(value) ? setIsTextError(false) : setIsTextError(true);
           break;
+        case "minLeng":
+          value.length < 7
+            ? setisMinimalLengthError(true)
+            : setisMinimalLengthError(false);
+          break;
       }
     }
   }, [value]);
 
   useEffect(() => {
-    if (isEmpty || isEmailError || sameValueError || isTextError) {
+    if (
+      isEmpty ||
+      isEmailError ||
+      sameValueError ||
+      isTextError ||
+      isMinimalLengthError
+    ) {
       setInputValid(false);
     } else {
       setInputValid(true);
     }
-  }, [isEmpty, isEmailError, sameValueError, isTextError]);
+  }, [
+    isEmpty,
+    isEmailError,
+    sameValueError,
+    isTextError,
+    isMinimalLengthError,
+  ]);
+  useEffect(() => {
+    if (isEmpty) {
+      setErrorMsg("Поле не должно быть пустым");
+    } else if (isEmailError) {
+      setErrorMsg("Поле должно содержать Email");
+    } else if (isTextError) {
+      setErrorMsg("Поле должно содержать только текст");
+    } else if (isMinimalLengthError) {
+      setErrorMsg("Минимум 7 символов");
+    }
+  }, [isEmpty, isEmailError, isTextError, isMinimalLengthError]);
   return {
     isEmpty,
     isEmailError,
     inputValid,
     sameValueError,
     isTextError,
+    ErrorMsg,
+    isMinimalLengthError,
   };
 }

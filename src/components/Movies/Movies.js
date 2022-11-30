@@ -19,6 +19,7 @@ function Movies(props) {
     saveMovies,
     saveFilter,
     disableButton,
+    filterStatus,
   } = props;
   const isWindowSize = useResize();
   const [baseCountMovies, setBaseCountMovies] = React.useState(
@@ -44,7 +45,9 @@ function Movies(props) {
       setCountIncr(MORE_COUNT_MOVIES.small);
     }
   }, [isWindowSize]);
-
+  React.useEffect(() => {
+    console.log(`filter status ${filterStatus}`);
+  }, []);
   function handleMoreButtonClick() {
     setMoreCountMovies(moreCountMovies + countIncr);
   }
@@ -59,6 +62,8 @@ function Movies(props) {
       {(() => {
         if (loader) {
           return <Preloader />;
+        } else if (filterStatus) {
+          return <p className="empty__cardlist">Ничего не найдено</p>;
         } else if (movies.length != 0) {
           return (
             <>
@@ -76,8 +81,6 @@ function Movies(props) {
               )}
             </>
           );
-        } else {
-          return <p className="empty__cardlist">Ничего не найдено</p>;
         }
       })()}
     </section>

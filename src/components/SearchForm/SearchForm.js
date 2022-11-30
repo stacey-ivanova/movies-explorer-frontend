@@ -40,7 +40,12 @@ function SearchForm(props) {
   }
 
   React.useEffect(() => {
-    console.log(`выводим filter ${saveFilter}`);
+    // console.log(`выводим filter ${saveFilter}`);
+    // console.log(`выводим disableButton ${disableButton}`);
+    if (type == "saved-movies") {
+      getMovies("", "saved-movies");
+      localStorage.setItem("filtredMovies", []);
+    }
     if (saveFilter) {
       // setfilterValue(saveFilter);
       getMovies(saveFilter, type);
@@ -58,9 +63,7 @@ function SearchForm(props) {
           value={formInput.values}
         ></input>
         {formInput.isTextError && (
-          <span className="searchform__item-error">
-            Введены некоректные данные
-          </span>
+          <span className="searchform__item-error">{formInput.ErrorMsg}</span>
         )}
         <button
           type="submit"

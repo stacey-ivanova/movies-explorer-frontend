@@ -12,6 +12,7 @@ function MoviesCardList(props) {
     triger,
     countMovies,
   } = props;
+
   return (
     <ul className="movies__container">
       {movies

@@ -3,6 +3,9 @@ import "./Burger.css";
 import { NavLink } from "react-router-dom";
 import profile from "../../images/iconprofile.svg";
 function MoreButton(props) {
+  function handleHideMenu(e) {
+    document.querySelector(".toggler").checked = false;
+  }
   return (
     <div className="burger__container">
       <input type="checkbox" className="toggler"></input>
@@ -13,17 +16,29 @@ function MoreButton(props) {
         <div className="menu__burger-content">
           <ul className="menu__burger-list">
             <li>
-              <NavLink to="/" className="menu__burger-list-item">
+              <NavLink
+                to="/"
+                className="menu__burger-list-item"
+                onClick={handleHideMenu}
+              >
                 Главная
               </NavLink>
             </li>
             <li>
-              <NavLink to="/movies" className="menu__burger-list-item">
+              <NavLink
+                to="/movies"
+                className="menu__burger-list-item"
+                onClick={handleHideMenu}
+              >
                 Фильмы
               </NavLink>
             </li>
             <li>
-              <NavLink to="/saved-movies" className="menu__burger-list-item">
+              <NavLink
+                to="/saved-movies"
+                className="menu__burger-list-item"
+                onClick={handleHideMenu}
+              >
                 Сохранённые
               </NavLink>
             </li>
@@ -34,6 +49,7 @@ function MoreButton(props) {
             to="/profile"
             className="nav-movie__link-profile"
             activeClassName="nav-movie__link-profile_active"
+            onClick={handleHideMenu}
           >
             Аккаунт
           </NavLink>

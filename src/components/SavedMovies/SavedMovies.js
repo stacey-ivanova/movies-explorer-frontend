@@ -15,6 +15,7 @@ function SavedMovies(props) {
     loader,
     type,
     onCardDelete,
+    filterStatus,
   } = props;
   const isWindowSize = useResize();
   const [baseCountMovies, setBaseCountMovies] = React.useState(12);
@@ -37,12 +38,15 @@ function SavedMovies(props) {
   function handleMoreButtonClick() {
     setMoreCountMovies(moreCountMovies + countIncr);
   }
+
   return (
     <section className="savedmovies">
       <SearchForm getMovies={getMovies} setshort={setshort} type={type} />
       {(() => {
         if (loader) {
           return <Preloader />;
+        } else if (filterStatus) {
+          return <p className="empty__cardlist">Ничего не найдено</p>;
         } else if (movies.length != 0) {
           return (
             <>
@@ -57,8 +61,6 @@ function SavedMovies(props) {
               )}
             </>
           );
-        } else {
-          return <p className="empty__cardlist">Ничего не найдено</p>;
         }
       })()}
     </section>

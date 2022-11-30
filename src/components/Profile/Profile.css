@@ -73,7 +73,7 @@
 
 .account__edit {
   text-align: center;
-  margin: 220px auto 16px;
+
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
@@ -133,4 +133,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 220px 0 16px;
 }

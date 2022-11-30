@@ -49,6 +49,8 @@ function Profile(props) {
     e.preventDefault();
     const userName = nameInput.values;
     const userMail = emailInput.values;
+    setUserName(userName);
+    setUserEmail(userMail);
 
     onUpdateUser({ userName, userMail });
   }
@@ -71,9 +73,9 @@ function Profile(props) {
               value={nameInput.values}
               onChange={handleNameChange}
             ></input>
-            {nameInput.isEmpty && nameInput.isIdent && (
+            {nameInput.isEmpty && (
               <span className="form__item-error_active">
-                Введены некоректные данные
+                {nameInput.ErrorMsg}
               </span>
             )}
           </label>
@@ -89,13 +91,11 @@ function Profile(props) {
               value={emailInput.values}
               onChange={handleEmailChange}
             ></input>
-            {emailInput.isEmpty &&
-              emailInput.isEmailError &&
-              emailInput.isIdent && (
-                <span className="form__item-error_active">
-                  Введены некоректные данные
-                </span>
-              )}
+            {(emailInput.isEmailError || emailInput.isEmpty) && (
+              <span className="form__item-error_active">
+                {emailInput.ErrorMsg}
+              </span>
+            )}
           </label>
         </div>
         <label className="account__button-lable">
@@ -104,11 +104,12 @@ function Profile(props) {
           )}
           <button
             disabled={
-              !emailInput.inputValid &&
-              !nameInput.inputValid &&
-              (!emailInput.inputValid || !nameInput.inputValid)
+              !emailInput.inputValid && !nameInput.inputValid
+              // &&
+              // (!emailInput.inputValid || !nameInput.inputValid)
             }
             className="account__edit"
+            type="submit"
           >
             Редактировать
           </button>

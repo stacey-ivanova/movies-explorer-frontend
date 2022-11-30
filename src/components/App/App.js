@@ -40,35 +40,40 @@ function App() {
   const [loader, setLoader] = React.useState(false);
   const year = new Date().getFullYear();
   const [changeMsg, setChangeMsg] = React.useState("");
+  const [filterStatus, setFilterStatus] = React.useState(false);
   function getMovies(filter, type) {
-    // console.log("getmovies");
-    console.log(
-      `massive ${JSON.parse(localStorage.getItem(`${type}`)) != null}`
-    );
-    console.log(`short ${JSON.parse(localStorage.getItem("short"))}`);
-    console.log(`filter ${filter}`);
+    // console.log(type);
+    // console.log(`massive ${localStorage.getItem(`${type}`) != null}`);
+    // console.log(`short ${JSON.parse(localStorage.getItem("short"))}`);
+    // console.log(`filter ${filter}`);
     // console.log(localStorage.getItem("short"));
     if (
-      JSON.parse(localStorage.getItem("short")) &&
-      JSON.parse(localStorage.getItem(`${type}`) != null)
+      // type != "saved-movies" &&
+      JSON.parse(localStorage.getItem(`short_${type}`)) &&
+      localStorage.getItem(`${type}`) != null
     ) {
-      console.log("in first get");
+      console.log("1");
       setDisableButton(true);
-      console.log(filter);
+      // console.log(filter);
       filterFilms(filter, type);
     } else {
-      console.log("in else get");
       if (type === "movies") {
+        console.log("2");
         if (JSON.parse(localStorage.getItem("movies"))) {
-          if (filter || filter === "") {
+          console.log("5");
+          if (filter || filter != "") {
+            console.log("5_1");
             console.log("go to filter");
             filterFilms(filter, type);
           } else {
+            console.log("5_0");
             console.log("get without filter");
-            setMovies(movemaper);
+            setMovies(JSON.parse(localStorage.getItem("movies")));
+            setFilterStatus(false);
           }
         } else {
-          console.log("in movies if");
+          console.log("6");
+
           setDisableButton(true);
           setLoader(true);
           moviesApi
@@ -76,11 +81,14 @@ function App() {
             .then((mov) => {
               const movemaper = moviesMapper(mov);
               localStorage.setItem("movies", JSON.stringify(movemaper));
-              console.log(`filter in movies ${filter}`);
-              if (filter || filter === "") {
-              } else {
-                console.log("get without filter");
+              // console.log(`filter in movies ${filter}`);
+
+              if (filter != null && filter != "") {
+                console.log("6_1");
                 setMovies(movemaper);
+              } else {
+                console.log("6_0");
+                filterFilms(filter, type);
               }
             })
             .catch((err) => {
@@ -92,6 +100,7 @@ function App() {
             });
         }
       } else if (type === "saved-movies") {
+        console.log("3");
         setDisableButton(true);
         setLoader(true);
         mainApi
@@ -103,9 +112,12 @@ function App() {
             localStorage.setItem("saved-movies", JSON.stringify(movemaper));
 
             if (filter) {
+              console.log("4_1");
               filterFilms(filter, type);
             } else {
+              console.log("4_0");
               setSaveMovies(movemaper);
+              setFilterStatus(false);
             }
           })
           .catch((err) => {
@@ -128,18 +140,28 @@ function App() {
   }
   function filterFilms(filter, page) {
     let moviesfilter = JSON.parse(localStorage.getItem(`${page}`));
-    if (JSON.parse(localStorage.getItem("short"))) {
-      console.log(`moviesfilter ${moviesfilter}`);
+
+    console.log(`short_ ${JSON.parse(localStorage.getItem(`short_${page}`))}`);
+    if (JSON.parse(localStorage.getItem(`short_${page}`))) {
+      // console.log(`moviesfilter ${moviesfilter}`);
       moviesfilter = moviesfilter.filter((m) => m.duration <= SHORT_VIDEO_SIZE);
       // console.log(moviesfilter);
     } else {
-      // console.log(" notshort");
+      console.log(" notshort");
       moviesfilter = moviesfilter;
       // console.log(moviesfilter);
     }
     const filtredMovies = moviesfilter.filter(
       (m) => m.nameRU.toLowerCase().indexOf(filter.toLowerCase()) !== -1
     );
+    console.log(filtredMovies.length);
+    if (filtredMovies.length === 0) {
+      setFilterStatus(true);
+    } else {
+      setFilterStatus(false);
+    }
+    localStorage.setItem("filtredMovies", JSON.stringify(filtredMovies));
+    // console.log(`выводим локалстор ${localStorage.getItem("filtredMovies")}`);
     if (page === "movies") {
       setMovies(filtredMovies);
       setDisableButton(false);
@@ -147,6 +169,7 @@ function App() {
       setSaveMovies(filtredMovies);
       setDisableButton(false);
     }
+    //
   }
 
   function handleRegister(name, email, password) {
@@ -221,7 +244,6 @@ function App() {
             console.log(err);
           });
       } else {
-        setLoggedIn(false);
         handleLogout();
       }
     }
@@ -232,14 +254,12 @@ function App() {
   }
 
   function handleUpdateUser(user) {
+    console.log("handle");
     setDisableButton(true);
     mainApi
       .changeUserInfo(user)
       .then((data) => {
         setCurrentUser(data);
-
-        console.log(`выводим что записываем ${data.name}`);
-        console.log(`выводим что записываем ${data.email}`);
         localStorage.setItem("name", data.name);
         localStorage.setItem("email", data.email);
         setUserEmail(data.email);
@@ -253,7 +273,6 @@ function App() {
       .finally(() => {
         setDisableButton(false);
       });
-    // .finally(() => {});
   }
 
   function handleCardLike(movie) {
@@ -273,11 +292,11 @@ function App() {
     mainApi
       .deleteMovie(card)
       .then((deleteCard) => {
-        setSaveMovies(
-          saveMovies.filter((movie) => {
-            return movie._id !== card;
-          })
-        );
+        const saveMoviesDel = saveMovies.filter((movie) => {
+          return movie._id !== card;
+        });
+        setSaveMovies(saveMoviesDel);
+        localStorage.setItem("saved-movies", JSON.stringify(saveMoviesDel));
       })
       .catch((err) => {
         console.log(err);
@@ -313,10 +332,14 @@ function App() {
                 onClose={closePopup}
                 history={history}
               ></InfoTooltip>
-              <Register handleRegister={handleRegister} history={history} />
+              <Register
+                handleRegister={handleRegister}
+                history={history}
+                loggedIn={loggedIn}
+              />
             </Route>
             <Route path="/signin">
-              <Login handleSignin={handleSignin} />
+              <Login handleSignin={handleSignin} loggedIn={loggedIn} />
             </Route>
             <ProtectedRoute
               path="/movies"
@@ -330,6 +353,7 @@ function App() {
               loader={loader}
               saveMovies={saveMovies}
               disableButton={disableButton}
+              filterStatus={filterStatus}
               saveFilter={localStorage.getItem("filter")}
               type="movies"
             ></ProtectedRoute>
@@ -341,6 +365,7 @@ function App() {
               getMovies={getMovies}
               onCardClick={onCardClick}
               disableButton={disableButton}
+              filterStatus={filterStatus}
               onCardDelete={handleCardDelete}
               type="saved-movies"
             ></ProtectedRoute>
@@ -363,13 +388,6 @@ function App() {
             <Route exact path={["/", "/movies", "/saved-movies", "/profile"]}>
               <Footer year={year} />
             </Route>
-            {!loggedIn ? (
-              <>
-                <Route path={["/signup", "/signin"]}> </Route>
-              </>
-            ) : (
-              <Redirect to="/" />
-            )}
           </Switch>
         </div>
       </div>
